@@ -7,24 +7,24 @@
 		margin: 20px 20px 0 20px;
 		width: calc(100% - 40px);
 		border-radius: 5px;
-		
+
 		.icon {
 			margin-right: 10px;
 		}
 	}
-	
+
 	.columns {
 		padding: 0;
 	}
-	
+
 	.dashboard-title {
 		font-size: 18px;
 	}
-	
+
 	.items-list {
 		list-style-type: none;
 		padding: 0;
-		
+
 		.item {
 			padding: 10px 0;
 			border-bottom: 1px solid $light-grey;
@@ -32,13 +32,17 @@
     		padding-left: 10px;
 		    margin-bottom: 5px;
 		}
-	}
-	
+  }
+
+  .sub-items-list {
+    margin-left: 30px;
+  }
+
 	.meta {
 		text-align: left;
 		padding: 0;
 	}
-	
+
 	.actions, .teachers {
 		.icon {
 			margin-right: 10px;

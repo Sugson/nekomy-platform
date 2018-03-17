@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import $ from 'jquery';
 import { firebase, helpers } from 'redux-react-firebase';
 import { Link } from 'react-router';
 import { setLoading } from '../../../../core/actions/actions';
 import * as CONSTANTS from '../../../../core/constants/constants';
 import ModalBox from '../../../../core/common/modalbox/modalbox';
 import Edit from '../../../../core/common/lib/edit/edit';
+import { animateCss, hideElem, showElem } from '../../../../core/common/helpers';
 import Icon from '../../../../core/common/lib/icon/icon';
 import Level from '../../../../../../static/svg/course.svg';
 import Info from '../../../../../../static/svg/info.svg';
@@ -47,7 +47,6 @@ class Course extends Component {
     super(props);
 
     this.state = {
-      selectedSubjects: [],
       modalTitle: ''
     };
 
@@ -55,15 +54,17 @@ class Course extends Component {
   }
 
   componentDidMount() {
+    const el = document.querySelector('.js-main');
     this.props.setLoading(false);
-    $('.js-main').removeClass().addClass('main js-main course-page');
+    el.classList = '';
+    el.classList.add('main', 'js-main', 'course-page');
   }
 
   enrolConfirmation() {
     this.setState({
       modalTitle: CONSTANTS.CONFIRM_ENROL
     }, () => {
-      $('.js-modal-box-wrapper').show().animateCss('fade-in');
+      animateCss(showElem('.js-modal-box-wrapper'), 'fade-in');
     });
   }
 
@@ -75,64 +76,36 @@ class Course extends Component {
         return false;
       });
 
-      let subjectsAdded = 0;
-      const subjectData = {
+      const courseData = {
         finalGrade: '',
         status: 'enrolled'
       };
 
-      $(this.refs['btn-enroll']).hide();
-      $(this.refs['loader-enroll']).show();
+      hideElem(this.refs['btn-enroll']);
+      showElem(this.refs['loader-enroll']);
 
-      for (let i = 0; i < this.state.selectedSubjects.length; i += 1) {
-        this.props.firebase.set(`users/${this.props.user.uid}/courses/${courseID}/${this.state.selectedSubjects[i]}`, subjectData).then(() => {
-          subjectsAdded += 1;
-          if (subjectsAdded === this.state.selectedSubjects.length) {
-            $(this.refs['btn-enroll']).show();
-            $(this.refs['loader-enroll']).hide();
-            this.props.setNotification({ message: CONSTANTS.ENROLLED_COURSE, type: 'success' });
-            this.setState({ selectedSubjects: [] });
-          }
-        }, (error) => {
-          $(this.refs['btn-enroll']).show();
-          $(this.refs['loader-enroll']).hide();
-          this.props.setNotification({ message: String(error), type: 'error' });
-        });
-      }
+      this.props.firebase.set(`users/${this.props.user.uid}/courses/${courseID}}`, courseData).then(() => {
+        showElem(this.refs['btn-enroll']);
+        hideElem(this.refs['loader-enroll']);
+        this.props.setNotification({ message: CONSTANTS.ENROLLED_COURSE, type: 'success' });
+      }, (error) => {
+        showElem(this.refs['btn-enroll']);
+        hideElem(this.refs['loader-enroll']);
+        this.props.setNotification({ message: String(error), type: 'error' });
+      });
     }
-  }
-
-  handleChange(event) {
-    const selectedSubjects = this.state.selectedSubjects;
-
-    if (event.target.checked) {
-      selectedSubjects.push(event.target.value);
-    } else {
-      let index = -1;
-      for (let i = 0; i < selectedSubjects.length; i += 1) {
-        if (selectedSubjects[i] === event.target.value) {
-          index = i;
-        }
-      }
-      if (index >= 0) {
-        selectedSubjects.splice(index, 1);
-      }
-    }
-    this.setState({ selectedSubjects });
   }
 
   render() {
     let course = null;
     let featuredImage = null;
     let enrollmentOpened = false;
-    let courseID = null;
     let subjects = null;
     let totalCredits = 0;
     const section = this.props.location.pathname.substr(this.props.location.pathname.lastIndexOf('/') + 1);
 
     if (isLoaded(this.props.course) && isLoaded(this.props.files) && !isEmpty(this.props.course) && !isEmpty(this.props.files)) {
       Object.keys(this.props.course).map((key) => {
-        courseID = key;
         course = this.props.course[key];
 
         if (course.featuredImage) {
@@ -166,15 +139,6 @@ class Course extends Component {
           });
         }
 
-        let itemEnrol = 'unavailable';
-        if (isLoaded(this.props.userData) && !isEmpty(this.props.userData)) {
-          if (this.props.userData.courses && this.props.userData.courses[courseID][item]) {
-            itemEnrol = this.props.userData.courses[courseID][item].status;
-          } else if (subject.status === 'active' && enrollmentOpened) {
-            itemEnrol = <span><input type="checkbox" value={item} onChange={event => this.handleChange(event)} />Enrol now</span>;
-          }
-        }
-
         return (
           <tr key={item}>
             <td>{subject.code}</td>
@@ -183,7 +147,6 @@ class Course extends Component {
             </td>
             <td>{teachers}</td>
             <td>{subject.credits}</td>
-            <td>{itemEnrol}</td>
           </tr>
         );
       });
@@ -293,16 +256,13 @@ class Course extends Component {
                       <th>Subject</th>
                       <th>Teacher(s)</th>
                       <th>Credits</th>
-                      {isLoaded(this.props.userData) && !isEmpty(this.props.userData)
-                        ? <th>Availability</th>
-                        : null}
                     </tr>
                   </thead>
                   <tbody>
                     {subjects}
                   </tbody>
                 </table>
-                {enrollmentOpened && this.state.selectedSubjects.length > 0
+                {enrollmentOpened && isLoaded(this.props.userData) && !isEmpty(this.props.userData)
                   ? <button ref="btn-enroll" className="btn btn-primary btn-enroll float-right" onClick={() => this.enrolConfirmation()}>Proceed with the registration</button>
                   : ''}
                 <div ref="loader-enroll" className="loader-small loader-enroll" />

@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import $ from 'jquery';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { firebase, helpers } from 'redux-react-firebase';
@@ -15,8 +14,8 @@ import Close from '../../../../../../static/svg/x.svg';
 import Forward from '../../../../../../static/svg/forward.svg';
 import Chat from '../../../../../../static/svg/chat.svg';
 import Course from '../../../../../../static/svg/course.svg';
-import Subject from '../../../../../../static/svg/subject.svg';
-import Module from '../../../../../../static/svg/module.svg';
+// import Subject from '../../../../../../static/svg/subject.svg';
+// import Module from '../../../../../../static/svg/module.svg';
 import Activity from '../../../../../../static/svg/activity.svg';
 import Post from '../../../../../../static/svg/post.svg';
 import Admin from '../../../../../../static/svg/cog.svg';
@@ -47,16 +46,6 @@ const defaultProps = {
       title: 'Courses',
       icon: Course,
       link: '/courses'
-    }, {
-      id: 2,
-      title: 'Subjects',
-      icon: Subject,
-      link: '/subjects'
-    }, {
-      id: 3,
-      title: 'Modules',
-      icon: Module,
-      link: '/modules'
     }, {
       id: 4,
       title: 'Activities',
@@ -118,8 +107,8 @@ const { dataToJS } = helpers;
 class Navigation extends Component {
 
   static clickItem(event) {
-    const $el = $(event.currentTarget).closest('.nav-item');
-    $el.toggleClass('opened');
+    const el = event.currentTarget.closest('.nav-item');
+    el.classList.toggle('opened');
   }
 
   constructor(props) {

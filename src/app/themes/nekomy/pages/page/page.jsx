@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 import { firebase, helpers } from 'redux-react-firebase';
 import classNames from 'classnames';
+import Icon from '../../../../core/common/lib/icon/icon';
+import Info from '../../../../../../static/svg/info.svg';
 import * as CONSTANTS from '../../../../core/constants/constants';
 import { setLoading } from '../../../../core/actions/actions';
 import Edit from '../../../../core/common/lib/edit/edit';
@@ -25,8 +26,10 @@ const { isLoaded, isEmpty, dataToJS } = helpers;
 class Page extends Component {
 
   componentDidMount() {
+    const el = document.querySelector('.js-main');
     this.props.setLoading(false);
-    $('.js-main').removeClass().addClass('main js-main detail-page');
+    el.classList = '';
+    el.classList.add('main', 'js-main', 'detail-page');
   }
 
   render() {
@@ -41,6 +44,10 @@ class Page extends Component {
 
     return (
       <section className="page static-page">
+        <div className="announcement">
+          <Icon glyph={Info} />
+          This is testing e-learning environment, implemented due to master thesis by Mateusz Lazar.
+        </div>
         {page
           ? <div className="page-wrapper">
             <h1 className="title">{page.title}</h1>

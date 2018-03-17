@@ -2,11 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { firebase, helpers } from 'redux-react-firebase';
 import { Link } from 'react-router';
-import $ from 'jquery';
 import moment from 'moment';
 import { setLoading } from '../../../../core/actions/actions';
 import Icon from '../../../../core/common/lib/icon/icon';
-import Info from '../../../../../../static/svg/info.svg';
 import Announcement from '../../../../../../static/svg/announcement.svg';
 import Download from '../../../../../../static/svg/download.svg';
 import Upload from '../../../../../../static/svg/upload.svg';
@@ -32,17 +30,111 @@ const propTypes = {
 
 const { isLoaded, isEmpty, dataToJS } = helpers;
 
-@firebase(() => (['subjects', 'activities', 'users']))
+@firebase(() => (['courses', 'subjects', 'activities', 'users']))
 @connect(state => ({
-  users: dataToJS(state.firebase, 'users'),
+  users: dataToJS(state.firebase, 'users') || [],
+  courses: dataToJS(state.firebase, 'courses'),
   subjects: dataToJS(state.firebase, 'subjects'),
   activities: dataToJS(state.firebase, 'activities')
 }))
+
 class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+
+    this.renderCourses = this.renderCourses.bind(this);
+    this.renderCourseSubjects = this.renderCourseSubjects.bind(this);
+  }
+
 
   componentDidMount() {
+    const el = document.querySelector('.js-main');
     this.props.setLoading(false);
-    $('.js-main').removeClass().addClass('main js-main dashboard-page');
+    el.classList = '';
+    el.classList.add('main', 'js-main', 'dashboard-page');
+  }
+
+  renderCourses() {
+    const { users, user, courses } = this.props;
+    const { courses: userCourses } = users[user.uid] || [];
+    const coursesList = [];
+
+    if (courses && userCourses) {
+      Object.keys(userCourses).forEach((courseKey) => {
+        if (courses[courseKey]) {
+          coursesList.push(courses[courseKey]);
+        }
+      });
+    }
+
+    return coursesList.map(course => (
+      <div key={course.code}>
+        <li
+          className="item"
+          style={{
+            borderLeftColor: this.props.colors[2]
+          }}
+        >
+          <Link to={`/courses/${course.slug}`}>
+            {course.title}
+          </Link>
+          <br /><span>ends on {course.endDate}</span>
+        </li>
+        <ul className="items-list sub-items-list">
+          { this.renderCourseSubjects(course.subjects) }
+        </ul>
+      </div>
+    ));
+  }
+
+  renderCourseSubjects(subjectIDs) {
+    const { subjects } = this.props;
+    const subjectsList = [];
+
+    if (subjects && subjectIDs) {
+      subjectIDs.forEach((subjectKey) => {
+        if (subjects[subjectKey]) {
+          subjectsList.push(subjects[subjectKey]);
+        }
+      });
+    }
+
+    return subjectsList.map(subject => (
+      <li
+        key={subject.code}
+        className="item"
+        style={{
+          borderLeftColor: this.props.colors[7]
+        }}
+      >
+        <Link to={`/subjects/${subject.slug}`}>
+          { subject.title }
+        </Link>
+        <br />
+        { subject.teachers && this.renderTeachers(subject.teachers) }
+      </li>
+    ));
+  }
+
+  renderTeachers(teachers) {
+    const { users } = this.props;
+    const teachersList = [];
+
+    if (users && teachers) {
+      teachers.forEach((teacherKey) => {
+        if (users[teacherKey]) {
+          const { firstName, lastName1, lastName2 } = users[teacherKey].info;
+          teachersList.push(`${firstName} ${lastName1} ${lastName2}`);
+        }
+      });
+    }
+
+    return (
+      <div className="teachers">
+        <Icon glyph={Teacher} />
+        { teachersList.map(teacher => (teacher)) }
+      </div>
+    );
   }
 
   render() {
@@ -117,17 +209,11 @@ class Dashboard extends Component {
         {(!isLoaded(subjects) && !isLoaded(activities))
           ? <div className="loader-small" />
           : <div className="page-wrapper">
-            <div className="announcement">
-              <Icon glyph={Info} />
-              From August 15th 23:00pm until August 16th 8am, the website will be offline due to maintenance works. Apologies for the trouble. (Hardcoded)
-            </div>
             <div className="columns">
               <div className="column">
-                <h1 className="dashboard-title">My subjects</h1>
+                <h1 className="dashboard-title">My courses</h1>
                 <ul className="items-list">
-                  {!isEmpty(subjects)
-                    ? subjects
-                    : 'None'}
+                  { this.props.courses && this.renderCourses() }
                 </ul>
               </div>
               <div className="column">
@@ -136,26 +222,6 @@ class Dashboard extends Component {
                   {!isEmpty(activities)
                     ? activities
                     : 'None'}
-                </ul>
-              </div>
-              <div className="column">
-                <h1 className="dashboard-title">My direct messages (Hardcoded)</h1>
-                <ul className="items-list">
-                  <li className="item">
-                    <div>John Smith</div>
-                    <div>#maths #test1</div>
-                    <div>I’ve uploaded the new formulas. Please let me know when you are available to...</div>
-                  </li>
-                  <li className="item">
-                    <div>Martin Lee</div>
-                    <div>#french #assignment1</div>
-                    <div>Hi Joan. In the 2nd question, you said ‘trais bien’ but the correct answer is ‘très...</div>
-                  </li>
-                  <li className="item">
-                    <div>Morgan Freeman, John Doe</div>
-                    <div>#history #assignment2</div>
-                    <div>Hi Joan and John, the result of your assignment is already published. Well done!</div>
-                  </li>
                 </ul>
               </div>
             </div>
