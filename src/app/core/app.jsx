@@ -39,6 +39,7 @@ class App extends Component {
             }
           });
         } else {
+          user.sendEmailVerification();
           this.props.setNotification({ message: USER_CONFIRM_EMAIL, type: 'info' });
         }
       }
