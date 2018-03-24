@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { firebase, helpers } from 'redux-react-firebase';
+import { compose } from 'redux';
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import classNames from 'classnames';
 import Icon from '../../../../core/common/lib/icon/icon';
 import Info from '../../../../../../static/svg/info.svg';
@@ -8,21 +9,6 @@ import * as CONSTANTS from '../../../../core/constants/constants';
 import { setLoading } from '../../../../core/actions/actions';
 import Edit from '../../../../core/common/lib/edit/edit';
 
-const { isLoaded, isEmpty, dataToJS } = helpers;
-
-@connect(state => ({
-  page: dataToJS(state.firebase, 'pages'),
-  userID: state.mainReducer.user
-    ? state.mainReducer.user.uid
-    : '',
-  userData: dataToJS(state.firebase, `users/${state.mainReducer.user
-    ? state.mainReducer.user.uid
-    : ''}`)
-}))
-@firebase(props => ([
-  `pages#orderByChild=slug&equalTo=${window.location.href.substr(window.location.href.lastIndexOf('/') + 1)}`,
-  `users/${props.userID}`
-]))
 class Page extends Component {
 
   componentDidMount() {
@@ -100,8 +86,21 @@ const mapDispatchToProps = {
 
 const mapStateToProps = ({
   mainReducer: {
-    isDesktop
+    isDesktop,
+    userData,
+    userID
   }
-}) => ({ isDesktop });
+}) => ({ isDesktop, userData, userID });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Page);
+const enhance = compose(
+  firebaseConnect(props => [
+    `pages#orderByChild=slug&equalTo=${window.location.href.substr(window.location.href.lastIndexOf('/') + 1)}`,
+    `users/${props.userID}`
+  ]),
+  connect(state => ({
+    page: state.firebase.data.pages
+  })),
+  connect(mapStateToProps, mapDispatchToProps)
+);
+
+export default enhance(Page);

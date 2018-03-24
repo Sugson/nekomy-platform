@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { firebaseConnect } from 'react-redux-firebase';
 import md5 from 'md5';
-import { firebase, helpers } from 'redux-react-firebase';
 import { setUser, setPanel, setNotification } from '../../../../core/actions/actions';
 import Navigation from '../navigation/navigation';
 import Signup from '../signup/signup';
@@ -20,13 +21,6 @@ import Close from '../../../../../../static/svg/x.svg';
 import Logout from '../../../../../../static/svg/logout.svg';
 import Chat from '../../../../../../static/svg/chat.svg';
 
-const { pathToJS } = helpers;
-
-@firebase()
-@connect(state => ({
-  user: pathToJS(state.firebase, 'auth'),
-  userData: pathToJS(state.firebase, 'userData')
-}))
 class TopNav extends Component {
 
   static toggleView(e) {
@@ -228,7 +222,6 @@ class TopNav extends Component {
 
           {(!this.props.user || (this.props.user && !this.props.user.emailVerified))
             ? <div className="user-controls">
-              <div className="lang">EN</div>
               <div className="user-controls-cta sign-up-cta">
                 <button onClick={TopNav.showForm}>Sign up</button>
                 <Signup />
@@ -239,7 +232,6 @@ class TopNav extends Component {
               </div>
             </div>
           : <div className="user-controls">
-            <div className="lang">EN</div>
             <button
               className="chat-icon" onClick={() => {
                 this.changePanel('chat');
@@ -309,4 +301,14 @@ const mapDispatchToProps = {
   setNotification
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TopNav);
+export default compose(
+  firebaseConnect([
+    'auth',
+    'userData'
+  ]),
+  connect(state => ({
+    user: state.firebase.data.auth,
+    userData: state.firebase.data.userData
+  })),
+  connect(mapStateToProps, mapDispatchToProps)
+)(TopNav);

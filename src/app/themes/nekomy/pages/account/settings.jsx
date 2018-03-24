@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import md5 from 'md5';
-import { firebase, helpers } from 'redux-react-firebase';
+import { isEmpty, isLoaded } from 'react-redux-firebase';
 import { setLoading, setUser, setNotification, setUserData } from '../../../../core/actions/actions';
 import * as CONSTANTS from '../../../../core/constants/constants';
 import { hideElem, showElem } from '../../../../core/common/helpers';
 import Icon from '../../../../core/common/lib/icon/icon';
 import Avatar from '../../../../../../static/svg/avatar.svg';
 
-const { isEmpty, isLoaded } = helpers;
-
-@firebase()
 class Settings extends Component {
 
   constructor(props) {

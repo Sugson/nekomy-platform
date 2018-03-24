@@ -1,34 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import { firebase, helpers } from 'redux-react-firebase';
+import { compose } from 'redux';
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { setLoading } from '../../../../core/actions/actions';
 import * as CONSTANTS from '../../../../core/constants/constants';
 import Edit from '../../../../core/common/lib/edit/edit';
 import Icon from '../../../../core/common/lib/icon/icon';
 import Professor from '../../../../../../static/svg/professor.svg';
 
-const { isLoaded, isEmpty, dataToJS } = helpers;
-
-@connect(state => ({
-  module: dataToJS(state.firebase, 'modules'),
-  files: dataToJS(state.firebase, 'files'),
-  users: dataToJS(state.firebase, 'users'),
-  userID: state.mainReducer.user
-    ? state.mainReducer.user.uid
-    : '',
-  userData: dataToJS(state.firebase, `users/${state.mainReducer.user
-    ? state.mainReducer.user.uid
-    : ''}`)
-}))
-@firebase(props => ([
-  `modules#orderByChild=slug&equalTo=${window.location.href.substr(window.location.href.lastIndexOf('/') + 1)}`,
-  'files',
-  'users',
-  `users/${props.userID}`
-]))
 class Module extends Component {
-
   componentDidMount() {
     const el = document.querySelector('.js-main');
     this.props.setLoading(false);
@@ -128,8 +109,24 @@ const mapDispatchToProps = {
 const mapStateToProps = ({
   mainReducer: {
     isDesktop,
-    userData
+    userData,
+    userID
   }
-}) => ({ isDesktop, userData });
+}) => ({ isDesktop, userData, userID });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Module);
+const enhance = compose(
+  firebaseConnect(props => [
+    `modules#orderByChild=slug&equalTo=${window.location.href.substr(window.location.href.lastIndexOf('/') + 1)}`,
+    'files',
+    'users',
+    `users/${props.userID}`
+  ]),
+  connect(state => ({
+    module: state.firebase.data.modules,
+    files: state.firebase.data.files,
+    users: state.firebase.data.users
+  })),
+  connect(mapStateToProps, mapDispatchToProps)
+);
+
+export default enhance(Module);

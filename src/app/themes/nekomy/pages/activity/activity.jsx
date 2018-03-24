@@ -1,36 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { firebase, helpers } from 'redux-react-firebase';
+import { compose } from 'redux';
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import classNames from 'classnames';
 import moment from 'moment';
-import { setLoading } from '../../../../core/actions/actions';
 import * as CONSTANTS from '../../../../core/constants/constants';
 import Edit from '../../../../core/common/lib/edit/edit';
 import Icon from '../../../../core/common/lib/icon/icon';
 import Professor from '../../../../../../static/svg/professor.svg';
 import Calendar from '../../../../../../static/svg/calendar2.svg';
 
-const { isLoaded, isEmpty, dataToJS } = helpers;
-
-@connect(state => ({
-  activity: dataToJS(state.firebase, 'activities'),
-  files: dataToJS(state.firebase, 'files'),
-  users: dataToJS(state.firebase, 'users'),
-  userID: state.mainReducer.user
-    ? state.mainReducer.user.uid
-    : '',
-  userData: dataToJS(state.firebase, `users/${state.mainReducer.user
-    ? state.mainReducer.user.uid
-    : ''}`)
-}))
-@firebase(props => ([
-  `activities#orderByChild=slug&equalTo=${window.location.href.substr(window.location.href.lastIndexOf('/') + 1)}`,
-  'files',
-  'users',
-  `users/${props.userID}`
-]))
 class Activity extends Component {
-
   componentDidMount() {
     const el = document.querySelector('.js-main');
     this.props.setLoading(false);
@@ -130,15 +110,27 @@ class Activity extends Component {
   }
 }
 
-const mapDispatchToProps = {
-  setLoading
-};
-
 const mapStateToProps = ({
   mainReducer: {
     isDesktop,
-    userData
+    userData,
+    userID
   }
-}) => ({ isDesktop, userData });
+}) => ({ isDesktop, userData, userID });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Activity);
+const enhance = compose(
+  firebaseConnect(props => [
+    `activities#orderByChild=slug&equalTo=${window.location.href.substr(window.location.href.lastIndexOf('/') + 1)}`,
+    'files',
+    'users',
+    `users/${props.userID}`
+  ]),
+  connect(state => ({
+    activity: state.firebase.data.activities,
+    files: state.firebase.data.files,
+    users: state.firebase.data.users
+  })),
+  connect(mapStateToProps)
+);
+
+export default enhance(Activity);

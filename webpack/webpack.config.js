@@ -48,8 +48,12 @@ module.exports = (options) => {
         }, {
           test: /.jsx?$/,
           include: Path.resolve(__dirname, '../src/app'),
-          use: 'babel-loader',
-          exclude: /node_modules/
+          loader: 'babel-loader',
+          exclude: /node_modules/,
+          query: {
+            presets: ['es2015', 'react'],
+            plugins: ['transform-class-properties']
+          }
         }, {
           test: /\.css$/,
           use: [

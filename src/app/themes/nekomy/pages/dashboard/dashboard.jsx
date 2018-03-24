@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { firebase, helpers } from 'redux-react-firebase';
+import { compose } from 'redux';
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { Link } from 'react-router';
 import moment from 'moment';
 import { setLoading } from '../../../../core/actions/actions';
@@ -27,16 +28,6 @@ const defaultProps = {
 const propTypes = {
   colors: PropTypes.array
 };
-
-const { isLoaded, isEmpty, dataToJS } = helpers;
-
-@firebase(() => (['courses', 'subjects', 'activities', 'users']))
-@connect(state => ({
-  users: dataToJS(state.firebase, 'users') || [],
-  courses: dataToJS(state.firebase, 'courses'),
-  subjects: dataToJS(state.firebase, 'subjects'),
-  activities: dataToJS(state.firebase, 'activities')
-}))
 
 class Dashboard extends Component {
   constructor(props) {
@@ -244,4 +235,13 @@ const mapStateToProps = ({
   }
 }) => ({ isDesktop });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default compose(
+  firebaseConnect(['courses', 'subjects', 'activities', 'users']),
+  connect(state => ({
+    courses: state.firebase.data.courses,
+    subjects: state.firebase.data.subjects,
+    activities: state.firebase.data.activities,
+    users: state.firebase.data.users
+  })),
+  connect(mapStateToProps, mapDispatchToProps)
+)(Dashboard);

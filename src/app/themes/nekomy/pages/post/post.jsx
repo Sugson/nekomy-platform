@@ -1,29 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { firebase, helpers } from 'redux-react-firebase';
+import { compose } from 'redux';
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import classNames from 'classnames';
 import moment from 'moment';
 import * as CONSTANTS from '../../../../core/constants/constants';
 import { setLoading } from '../../../../core/actions/actions';
 import Edit from '../../../../core/common/lib/edit/edit';
 
-const { isLoaded, isEmpty, dataToJS } = helpers;
-
-@connect(state => ({
-  post: dataToJS(state.firebase, 'posts'),
-  files: dataToJS(state.firebase, 'files'),
-  userID: state.mainReducer.user
-    ? state.mainReducer.user.uid
-    : '',
-  userData: dataToJS(state.firebase, `users/${state.mainReducer.user
-    ? state.mainReducer.user.uid
-    : ''}`)
-}))
-@firebase(props => ([
-  `posts#orderByChild=slug&equalTo=${window.location.href.substr(window.location.href.lastIndexOf('/') + 1)}`,
-  'files',
-  `users/${props.userID}`
-]))
 class Post extends Component {
 
   componentDidMount() {
@@ -110,8 +94,23 @@ const mapDispatchToProps = {
 
 const mapStateToProps = ({
   mainReducer: {
-    isDesktop
+    isDesktop,
+    userData,
+    userID
   }
-}) => ({ isDesktop });
+}) => ({ isDesktop, userData, userID });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Post);
+const enhance = compose(
+  firebaseConnect(props => [
+    `posts#orderByChild=slug&equalTo=${window.location.href.substr(window.location.href.lastIndexOf('/') + 1)}`,
+    'files',
+    `users/${props.userID}`
+  ]),
+  connect(state => ({
+    post: state.firebase.data.posts,
+    files: state.firebase.data.files
+  })),
+  connect(mapStateToProps, mapDispatchToProps)
+);
+
+export default enhance(Post);

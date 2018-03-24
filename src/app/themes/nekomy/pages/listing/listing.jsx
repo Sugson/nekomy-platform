@@ -1,31 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { firebase, helpers } from 'redux-react-firebase';
+import { compose } from 'redux';
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { renderCards } from '../../../../core/common/helpers';
 import { setLoading } from '../../../../core/actions/actions';
 
-const { isLoaded, isEmpty, dataToJS } = helpers;
-
-@firebase(() => ([
-  'courses',
-  'subjects',
-  'modules',
-  'activities',
-  'posts',
-  'levels',
-  'files'
-]))
-@connect(state => ({
-  courses: dataToJS(state.firebase, 'courses'),
-  subjects: dataToJS(state.firebase, 'subjects'),
-  modules: dataToJS(state.firebase, 'modules'),
-  activities: dataToJS(state.firebase, 'activities'),
-  posts: dataToJS(state.firebase, 'posts'),
-  levels: dataToJS(state.firebase, 'levels'),
-  files: dataToJS(state.firebase, 'files')
-}))
 class Listing extends Component {
-
   componentDidMount() {
     const el = document.querySelector('.js-main');
     this.props.setLoading(false);
@@ -47,7 +27,6 @@ class Listing extends Component {
     } else {
       items = <div className="loader-small" />;
     }
-
     return (
       <section className="page listing-page">
         <div className="cards">
@@ -69,4 +48,16 @@ const mapStateToProps = ({
   }
 }) => ({ isDesktop });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Listing);
+export default compose(
+  firebaseConnect(['courses', 'subjects', 'modules', 'activities', 'posts', 'levels', 'files']),
+  connect(state => ({
+    courses: state.firebase.data.courses,
+    subjects: state.firebase.data.subjects,
+    modules: state.firebase.data.modules,
+    activities: state.firebase.data.activities,
+    posts: state.firebase.data.posts,
+    levels: state.firebase.data.levels,
+    files: state.firebase.data.files
+  })),
+  connect(mapStateToProps, mapDispatchToProps)
+)(Listing);

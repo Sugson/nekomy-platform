@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { firebaseConnect, getVal, isLoaded, isEmpty } from 'react-redux-firebase';
 import moment from 'moment';
-import { firebase, helpers } from 'redux-react-firebase';
 import { Link } from 'react-router';
 import { setLoading } from '../../../../core/actions/actions';
 import * as CONSTANTS from '../../../../core/constants/constants';
@@ -14,33 +15,6 @@ import Level from '../../../../../../static/svg/course.svg';
 import Info from '../../../../../../static/svg/info.svg';
 import Calendar from '../../../../../../static/svg/calendar2.svg';
 
-const { isLoaded, isEmpty, dataToJS } = helpers;
-
-@connect((state, props) => ({
-  course: dataToJS(state.firebase, 'courses'),
-  levels: dataToJS(state.firebase, 'levels'),
-  subjects: dataToJS(state.firebase, 'subjects'),
-  users: dataToJS(state.firebase, 'users'),
-  files: dataToJS(state.firebase, 'files'),
-  userID: state.mainReducer.user
-    ? state.mainReducer.user.uid
-    : '',
-  // featuredImage: state.course.featuredImage ? state.course.featuredImage : '',
-  courseID: props.course
-    ? props.course[Object.keys(props.course)[0]].code
-    : '',
-  userData: dataToJS(state.firebase, `users/${state.mainReducer.user
-    ? state.mainReducer.user.uid
-    : ''}`)
-}))
-@firebase(props => ([
-  `courses#orderByChild=slug&equalTo=${props.params.slug}`, 'levels', 'subjects',
-  // `subjects#orderByKey&equalTo=${props.course ? props.course[Object.keys(props.course)[0]].subjects : ''}`,
-  'users',
-  'files',
-  // `files#orderByChild=featuredImage&equalTo=${props.featuredImage}`
-  `users/${props.userID}`
-]))
 class Course extends Component {
 
   constructor(props) {
@@ -320,4 +294,35 @@ const mapStateToProps = ({
   }
 }) => ({ isDesktop, userData });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Course);
+const enhance = compose(
+  firebaseConnect(props => [
+    `courses#orderByChild=slug&equalTo=${props.params.slug}`,
+    'levels',
+    'subjects',
+    'users',
+    'files',
+    `users/${props.userID}`
+  ]),
+  connect(({ firebase }, props) => ({
+    userData: getVal(firebase, `users/${props.user
+      ? props.user.uid
+      : null}`),
+    userID: props.user
+      ? props.user.uid
+      : null,
+    courseID: props.course
+      ? props.course[Object.keys(props.course)[0]].code
+      : ''
+  })),
+  connect(state => ({
+    users: state.firebase.data.users,
+    levels: state.firebase.data.levels,
+    course: state.firebase.data.courses,
+    subjects: state.firebase.data.subjects,
+    files: state.firebase.data.files
+  })),
+  connect(mapStateToProps, mapDispatchToProps)
+);
+
+export default enhance(Course);
+

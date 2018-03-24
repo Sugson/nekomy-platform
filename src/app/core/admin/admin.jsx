@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { firebase, helpers } from 'redux-react-firebase';
+import { compose } from 'redux';
+import { firebaseConnect, getVal, isLoaded, isEmpty } from 'react-redux-firebase';
 import omit from 'lodash.omit';
 import classNames from 'classnames';
 import SimpleMDE from 'react-simplemde-editor';
@@ -28,39 +29,6 @@ import File from '../../../../static/svg/file.svg';
 import LinkIcon from '../../../../static/svg/link.svg';
 import Forward from '../../../../static/svg/forward.svg';
 
-const { isLoaded, isEmpty, dataToJS } = helpers;
-
-@connect(state => ({
-  users: dataToJS(state.firebase, 'users'),
-  levels: dataToJS(state.firebase, 'levels'),
-  groups: dataToJS(state.firebase, 'groups'),
-  courses: dataToJS(state.firebase, 'courses'),
-  subjects: dataToJS(state.firebase, 'subjects'),
-  modules: dataToJS(state.firebase, 'modules'),
-  activities: dataToJS(state.firebase, 'activities'),
-  posts: dataToJS(state.firebase, 'posts'),
-  pages: dataToJS(state.firebase, 'pages'),
-  files: dataToJS(state.firebase, 'files'),
-  userID: state.mainReducer.user
-    ? state.mainReducer.user.uid
-    : '',
-  userData: dataToJS(state.firebase, `users/${state.mainReducer.user
-    ? state.mainReducer.user.uid
-    : ''}`)
-}))
-@firebase(props => ([
-  'users',
-  'levels',
-  'groups',
-  'courses',
-  'subjects',
-  'modules',
-  'activities',
-  'posts',
-  'pages',
-  'files',
-  `users/${props.userID}`
-]))
 class Admin extends Component {
 
   static formatFileType(state) {
@@ -1205,4 +1173,41 @@ const mapDispatchToProps = {
 
 const mapStateToProps = null;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Admin);
+const enhance = compose(
+  firebaseConnect(props => [
+    'users',
+    'levels',
+    'groups',
+    'courses',
+    'subjects',
+    'modules',
+    'activities',
+    'posts',
+    'pages',
+    'files',
+    `users/${props.userID}`
+  ]),
+  connect(({ firebase }, props) => ({
+    userData: getVal(firebase, `users/${props.user
+      ? props.user.uid
+      : null}`),
+    userID: props.user
+      ? props.user.uid
+      : null
+  })),
+  connect(state => ({
+    users: state.firebase.data.users,
+    levels: state.firebase.data.levels,
+    groups: state.firebase.data.groups,
+    courses: state.firebase.data.courses,
+    subjects: state.firebase.data.subjects,
+    modules: state.firebase.data.modules,
+    activities: state.firebase.data.activities,
+    posts: state.firebase.data.posts,
+    pages: state.firebase.data.pages,
+    files: state.firebase.data.files
+  })),
+  connect(mapStateToProps, mapDispatchToProps)
+);
+
+export default enhance(Admin);

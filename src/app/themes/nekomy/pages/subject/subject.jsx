@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { firebase, helpers } from 'redux-react-firebase';
+import { compose } from 'redux';
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import classNames from 'classnames';
 import { Link } from 'react-router';
 import { setLoading } from '../../../../core/actions/actions';
@@ -9,29 +10,6 @@ import Edit from '../../../../core/common/lib/edit/edit';
 import Icon from '../../../../core/common/lib/icon/icon';
 import Professor from '../../../../../../static/svg/professor.svg';
 
-const { isLoaded, isEmpty, dataToJS } = helpers;
-
-@connect(state => ({
-  subject: dataToJS(state.firebase, 'subjects'),
-  files: dataToJS(state.firebase, 'files'),
-  users: dataToJS(state.firebase, 'users'),
-  activities: dataToJS(state.firebase, 'activities'),
-  modules: dataToJS(state.firebase, 'modules'),
-  userID: state.mainReducer.user
-    ? state.mainReducer.user.uid
-    : '',
-  userData: dataToJS(state.firebase, `users/${state.mainReducer.user
-    ? state.mainReducer.user.uid
-    : ''}`)
-}))
-@firebase(props => ([
-  `subjects#orderByChild=slug&equalTo=${props.params.slug}`,
-  'files',
-  'users',
-  'activities',
-  'modules',
-  `users/${props.userID}`
-]))
 class Subject extends Component {
 
   componentDidMount() {
@@ -227,8 +205,28 @@ const mapDispatchToProps = {
 const mapStateToProps = ({
   mainReducer: {
     isDesktop,
-    userData
+    userData,
+    userID
   }
-}) => ({ isDesktop, userData });
+}) => ({ isDesktop, userData, userID });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Subject);
+const enhance = compose(
+  firebaseConnect(props => [
+    `subjects#orderByChild=slug&equalTo=${props.params.slug}`,
+    'files',
+    'users',
+    'activities',
+    'modules',
+    `users/${props.userID}`
+  ]),
+  connect(state => ({
+    subject: state.firebase.data.subjects,
+    files: state.firebase.data.files,
+    users: state.firebase.data.users,
+    activities: state.firebase.data.activities,
+    modules: state.firebase.data.modules
+  })),
+  connect(mapStateToProps, mapDispatchToProps)
+);
+
+export default enhance(Subject);

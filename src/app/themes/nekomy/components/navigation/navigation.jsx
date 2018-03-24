@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { firebase, helpers } from 'redux-react-firebase';
+import { compose } from 'redux';
+import { firebaseConnect } from 'react-redux-firebase';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import { ADMIN_LEVEL } from '../../../../core/constants/constants';
 import Search from '../search/search';
@@ -93,17 +94,6 @@ const propTypes = {
   closeSearch: PropTypes.func.isRequired
 };
 
-const { dataToJS } = helpers;
-
-@connect(state => ({
-  userID: state.mainReducer.user
-    ? state.mainReducer.user.uid
-    : null,
-  userData: dataToJS(state.firebase, `users/${state.mainReducer.user
-    ? state.mainReducer.user.uid
-    : null}`)
-}))
-@firebase(props => ([`users/${props.userID}`]))
 class Navigation extends Component {
 
   static clickItem(event) {
@@ -222,8 +212,19 @@ Navigation.defaultProps = defaultProps;
 
 const mapStateToProps = ({
   mainReducer: {
-    user
+    user,
+    userData
   }
-}) => ({ user });
+}) => ({ user, userData });
 
-export default connect(mapStateToProps)(Navigation);
+const enhance = compose(
+  connect(mapStateToProps),
+  firebaseConnect(props => ([`users/${props.user ? props.user.uid : null}`])),
+  connect(({ firebase }, props) => ({
+    userData: props.userData,
+    userID: props.user ? props.user.uid : null
+  }))
+);
+
+export default enhance(Navigation);
+
