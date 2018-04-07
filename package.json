@@ -3,7 +3,7 @@
   "version": "0.1.10",
   "description": "An open source LMS (eLearning platform) for MOOCs and online courses",
   "scripts": {
-    "dev": "webpack-dev-server --config ./webpack/webpack-dev.config.js --watch --colors",
+    "start": "webpack-dev-server --config ./webpack/webpack-dev.config.js --watch --colors",
     "build": "rm -rf dist && webpack --config ./webpack/webpack-prod.config.js --colors",
     "lint": "eslint src test webpack"
   },
@@ -38,6 +38,7 @@
     "md5": "^2.2.1",
     "moment": "^2.15.1",
     "react": "^15.4.2",
+    "react-chat-widget": "^2.1.2",
     "react-datepicker": "^0.39.0",
     "react-dom": "^15.4.2",
     "react-ga": "^2.1.2",

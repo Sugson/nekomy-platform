@@ -1,0 +1,28 @@
+.forum {
+  .widget-container {
+    top: 0;
+    display: flex;
+    margin: 0 auto;
+    position: relative;
+    max-width: none;
+    left: 0;
+    width: 90%;
+    z-index: 9999;
+    flex-wrap: nowrap;
+
+    button.launcher {
+      order: 1;
+      align-self: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .conversation-container {
+      order: 2;
+
+      .title {
+        font-size: 16px;
+        padding: 0 30px 5px;
+      }
+    }
+  }
+}
