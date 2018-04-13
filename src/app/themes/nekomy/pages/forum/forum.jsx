@@ -24,8 +24,8 @@ class Forum extends Component {
           </h1>
           <Widget
             handleNewUserMessage={this.handleNewUserMessage}
-            title={false}
-            subtitle={false}
+            title={''}
+            subtitle={''}
           />
         </div>
       </section>

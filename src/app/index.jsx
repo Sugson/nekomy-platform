@@ -18,6 +18,7 @@ import Post from './themes/nekomy/pages/post/post';
 import Course from './themes/nekomy/pages/course/course';
 import Subject from './themes/nekomy/pages/subject/subject';
 import Forum from './themes/nekomy/pages/forum/forum';
+import Homework from './themes/nekomy/pages/homework/homework';
 import Module from './themes/nekomy/pages/module/module';
 import Activity from './themes/nekomy/pages/activity/activity';
 import NotFound from './themes/nekomy/pages/notFound/notFound';
@@ -87,6 +88,7 @@ ReactDOM.render(
         <Route path="/subjects" component={Listing} />
         <Route path="/subjects/:slug" component={Subject} />
         <Route path="/subjects/:slug/forum" component={Forum} />
+        <Route path="/subjects/:slug/homework" component={Homework} />
         <Route path="/subjects/:slug/activities" component={Subject} />
         <Route path="/modules" component={Listing} />
         <Route path="/modules/:slug" component={Module} />

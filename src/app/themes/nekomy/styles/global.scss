@@ -19,6 +19,10 @@ body {
 	}
 }
 
+*:focus {
+  outline: none;
+}
+
 .main-background {
 	position: absolute;
 	top: 0;

@@ -1,0 +1,51 @@
+.homework__version-title--add {
+  background-color: #5c98fa;
+  color: white;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: #5c91fa;
+  }
+
+  .icon {
+    margin-right: 10px;
+    margin-top: -5px;
+  }
+}
+
+.homework__version-title--current {
+  background-color: #40b11b;
+  color: white;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: #349613;
+  }
+}
+
+.homework__version-body--current {
+  border: 2px solid #40b11b;
+  border-top: none;
+}
+
+.homework__current-indicator {
+  font-size: 10px;
+  text-transform: uppercase;
+  margin-right: 15px;
+  background-color: white;
+  color: green;
+  padding: 4px 10px;
+  font-weight: 700;
+}
+
+.accordion__item--hole {
+  position: relative;
+  -webkit-box-shadow: 0 0 0 9999px rgba(0,0,0,.5), 0 0 15px rgba(0,0,0,.5);
+  box-shadow: 0 0 0 9999px rgba(0,0,0,.5), 0 0 15px rgba(0,0,0,.5);
+}
+
+.btn--homework {
+  margin: 20px 0;
+}
