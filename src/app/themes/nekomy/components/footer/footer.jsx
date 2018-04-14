@@ -12,10 +12,8 @@ class Footer extends Component {
   render() {
     return (
       <section className="footer">
-        <span>Nekomy Platform <span className="app-version" />
-          <Icon glyph={Logo} />
-          2016 - 2018. Licensed under GPLv2. More info at <a href="http://nekomy.github.io/nekomy-platform/">nekomy.github.io/nekomy-platform</a>
-        </span>
+        <p>{"Mateusz Lazar - iLearn 🎓 Master's Thesis - 2018"}</p>
+        <p>Based on <a href="http://nekomy.github.io/nekomy-platform/">nekomy</a>.</p>
       </section>
     );
   }

@@ -1,6 +1,7 @@
 // Current theme common styles
 @import './themes/nekomy/styles/variables';
 @import './themes/nekomy/styles/mixins';
+@import './themes/nekomy/styles/typography';
 @import './themes/nekomy/styles/utilities';
 @import './themes/nekomy/styles/elements';
 @import './themes/nekomy/styles/buttons';
@@ -21,6 +22,7 @@
 @import './themes/nekomy/components/grades/grades';
 @import './themes/nekomy/components/help/help';
 @import './themes/nekomy/components/notification/notification';
+@import './themes/nekomy/components/page/page';
 
 // Current theme page styles
 @import './themes/nekomy/pages/home/home';

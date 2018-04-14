@@ -1,0 +1,8 @@
+// Extends - typography
+// ------------------------------------------
+
+@each $name, $value in $typo-size {
+  %u-text--#{$name} {
+    @include interpolation('font-size', $value);
+  }
+}

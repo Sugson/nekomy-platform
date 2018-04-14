@@ -1,18 +1,14 @@
 .footer {
-	background-color: $light-grey;
-	text-align: center;
-    color: $white;
-    font-size: 12px;
-    padding: 20px;
-	
-	.icon {
-		border: 1px solid $white;
-		border-radius: 5px;
-		fill: $white;
-		margin: 0 5px;
+  background-color: #f5f5f5;
+  text-align: center;
+  font-size: 10px;
+  padding: 20px;
+
+	p {
+		margin: 0;
 	}
-	
+
 	a {
-		color: $white;
+		text-decoration: underline;
 	}
 }

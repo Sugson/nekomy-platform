@@ -28,7 +28,7 @@
 }
 
 @mixin toggle-switch($width: 50px, $height: 17px, $size: 13px) {
-	
+
 	width: $width;
 	height: $height;
 	background: $white;
@@ -42,7 +42,7 @@
 	label {
 		margin: 0;
 	}
-	
+
 	label:before,
 	label:after {
 		text-align: center;
@@ -60,7 +60,7 @@
 	input[type=checkbox]:not(:checked) + label:before {
 		content: "";
 		padding-left: 10px;
-	}			
+	}
 	input[type=checkbox]:checked + label:before {
 		content: "";
 		padding-left: 0;
@@ -75,18 +75,107 @@
 		background: $blue;
 		display: block;
 		border-radius: 50%;
-		position: absolute;		
+		position: absolute;
 	}
 	input[type=checkbox]:not(:checked) + label:after {
 		top: 2px;
-		left: 2px;	
-	}			
+		left: 2px;
+	}
 	input[type=checkbox]:checked + label:after {
 		top: 2px;
-		right: 12px;			
+		right: 12px;
 	}
 }
 
 @mixin random-color($selector) {
   	#{$selector}: unquote("rgba(#{random(256) - 1}, #{random(256)-1}, #{random(256 - 1)}, #{random(100)/100})");
+}
+
+// Breakpoints
+// ------------------------------------------
+@mixin min-screen($resolution) {
+  @media screen and (min-width: $resolution) {
+    @content;
+  }
+}
+
+@mixin max-screen($resolution) {
+  @media screen and (max-width: $resolution - 1) {
+    @content;
+  }
+}
+
+// Alignment
+// ------------------------------------------
+@mixin align-h($position: absolute) {
+  transform: translateX(-50%);
+  position: #{$position};
+  left: 50%;
+}
+
+@mixin align-v($position: absolute) {
+  transform: translateY(-50%);
+  position: #{$position};
+  top: 50%;
+}
+
+@mixin align-vh($position: absolute) {
+  transform: translate(-50%, -50%);
+  position: #{$position};
+  top: 50%;
+  left: 50%;
+}
+
+// Interpolations
+// ------------------------------------------
+@function linear-interpolation($map) {
+  $keys: map-keys($map);
+
+  @if (length($keys) != 2) {
+    @error 'linear-interpolation() $map must be exactly 2 values';
+  }
+
+  $m: (map-get($map, nth($keys, 2)) - map-get($map, nth($keys, 1))) / (nth($keys, 2) - nth($keys, 1));
+  $b: map-get($map, nth($keys, 1)) - $m * nth($keys, 1);
+  $sign: '+';
+
+  @if ($b < 0) {
+    $sign: '-';
+    $b: abs($b);
+  }
+
+  @return calc(#{$m*100}vw #{$sign} #{$b});
+}
+
+@mixin interpolation($style, $map) {
+  $keys: map-keys($map);
+  #{$style}: linear-interpolation($map);
+
+  @include max-screen(nth($keys, 1)) {
+    #{$style}: map-get($map, nth($keys, 1));
+  }
+
+  @include min-screen(nth($keys, 2)) {
+    #{$style}: map-get($map, nth($keys, 2));
+  }
+}
+
+@mixin interpolation-multi($styles, $map) {
+  $keys: map-keys($map);
+
+  @each $name in $styles {
+    #{$name}: linear-interpolation($map);
+  }
+
+  @include max-screen(nth($keys, 1)) {
+    @each $name in $styles {
+      #{$name}: map-get($map, nth($keys, 1));
+    }
+  }
+
+  @include min-screen(nth($keys, 2)) {
+    @each $name in $styles {
+      #{$name}: map-get($map, nth($keys, 2));
+    }
+  }
 }

@@ -14,6 +14,7 @@ import brace from 'brace';
 import 'brace/mode/jsx';
 import 'brace/theme/github';
 import { setLoading } from '../../../../core/actions/actions';
+import Page from '../../components/page/page';
 import Icon from '../../../../core/common/lib/icon/icon';
 import Add from '../../../../../../static/svg/add.svg';
 
@@ -118,51 +119,46 @@ class Homework extends Component {
     const { currentSubject, addExpanded } = this.state;
 
     return (
-      <section className="page homework">
-        <div className="page-wrapper">
-          <h1 className="title">
-            Homework
-          </h1>
-          <Accordion onChange={e => e === 0 && this.setState({ addExpanded: !this.state.addExpanded })}>
-            <AccordionItem
-              className={`accordion__item ${addExpanded ? 'accordion__item--hole' : ''}`}
-            >
-              <AccordionItemTitle className={'accordion__title homework__version-title--add'}>
-                <Icon glyph={Add} style={{ fill: 'white' }} /> Add new version
-              </AccordionItemTitle>
-              <AccordionItemBody>
-                <AceEditor
-                  name="homework"
-                  mode="javascript"
-                  theme="github"
-                  onChange={this.onChange}
-                  fontSize={14}
-                  height={'500px'}
-                  width={'100%'}
-                  showPrintMargin
-                  showGutter
-                  highlightActiveLine
-                  setOptions={{
-                    enableBasicAutocompletion: true,
-                    enableLiveAutocompletion: true,
-                    enableSnippets: false,
-                    showLineNumbers: true,
-                    tabSize: 2
-                  }}
-                />
-                <button className="btn btn-primary btn--homework" onClick={this.saveHomework}>
-                  Save version
-                </button>
-              </AccordionItemBody>
-            </AccordionItem>
-            { (!_.isEmpty(this.props.userData.subject) && currentSubject) &&
-              <div>
-                {this.renderEditors(this.props.userData.subject[currentSubject].homework)}
-              </div>
-            }
-          </Accordion>
-        </div>
-      </section>
+      <Page additionalClass={'forum'} headline={'Homework'}>
+        <Accordion onChange={e => e === 0 && this.setState({ addExpanded: !this.state.addExpanded })}>
+          <AccordionItem
+            className={`accordion__item ${addExpanded ? 'accordion__item--hole' : ''}`}
+          >
+            <AccordionItemTitle className={'accordion__title homework__version-title--add'}>
+              <Icon glyph={Add} style={{ fill: 'white' }} /> Add new version
+            </AccordionItemTitle>
+            <AccordionItemBody>
+              <AceEditor
+                name="homework"
+                mode="javascript"
+                theme="github"
+                onChange={this.onChange}
+                fontSize={14}
+                height={'500px'}
+                width={'100%'}
+                showPrintMargin
+                showGutter
+                highlightActiveLine
+                setOptions={{
+                  enableBasicAutocompletion: true,
+                  enableLiveAutocompletion: true,
+                  enableSnippets: false,
+                  showLineNumbers: true,
+                  tabSize: 2
+                }}
+              />
+              <button className="btn btn-primary btn--homework" onClick={this.saveHomework}>
+                Save version
+              </button>
+            </AccordionItemBody>
+          </AccordionItem>
+          { (!_.isEmpty(this.props.userData.subject) && currentSubject) &&
+            <div>
+              {this.renderEditors(this.props.userData.subject[currentSubject].homework)}
+            </div>
+          }
+        </Accordion>
+      </Page>
     );
   }
 }

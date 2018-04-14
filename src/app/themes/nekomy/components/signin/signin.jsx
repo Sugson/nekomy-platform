@@ -4,7 +4,7 @@ import firebase from 'firebase';
 import { hideElem, showElem } from '../../../../core/common/helpers';
 import { setNotification } from '../../../../core/actions/actions';
 
-class Signup extends Component {
+class Signin extends Component {
 
   constructor(props) {
     super(props);
@@ -37,6 +37,7 @@ class Signup extends Component {
         <input type="text" className="input-field" ref="email" placeholder="Email" />
         <input type="password" className="input-field" placeholder="Password" ref="password" />
         <button type="submit" className="btn btn-primary js-btn-signin">Sign in</button>
+        <button type="button" onClick={this.props.switchToRegister} className="btn btn-secondary">Switch to sign up</button>
         <div className="loader-small js-signin-loader" />
       </form>
     );
@@ -49,4 +50,4 @@ const mapDispatchToProps = {
   setNotification
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signup);
+export default connect(mapStateToProps, mapDispatchToProps)(Signin);

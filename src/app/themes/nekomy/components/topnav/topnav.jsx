@@ -56,7 +56,8 @@ class TopNav extends Component {
     this.state = {
       avatar: '',
       searching: false,
-      navigating: false
+      navigating: false,
+      signUpView: false
     };
 
     this.toggleNav = this.toggleNav.bind(this);
@@ -216,19 +217,17 @@ class TopNav extends Component {
             : ''}
 
           <Link to="/" className="logo">
-            <Icon glyph={Logo} />
-            <Icon glyph={LogoWording} className="icon logo-wording" />
+            iLearn
           </Link>
 
           {(!this.props.user || (this.props.user && !this.props.user.emailVerified))
             ? <div className="user-controls">
-              <div className="user-controls-cta sign-up-cta">
-                <button onClick={TopNav.showForm}>Sign up</button>
-                <Signup />
-              </div>
               <div className="user-controls-cta sign-in-cta">
                 <button onClick={TopNav.showForm}>Sign in</button>
-                <Signin />
+                { this.state.signUpView ?
+                  <Signup switchToLogin={() => this.setState({ signUpView: false })} />
+                :
+                  <Signin switchToRegister={() => this.setState({ signUpView: true })} /> }
               </div>
             </div>
           : <div className="user-controls">

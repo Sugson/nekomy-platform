@@ -59,6 +59,7 @@ class Signup extends Component {
         <input type="password" className="input-field" placeholder="Password" ref="password" />
         <input type="password" className="input-field" placeholder="Repeat password" ref="password2" />
         <button type="submit" className="btn btn-primary js-btn-signup">Sign up</button>
+        <button type="button" onClick={this.props.switchToLogin} className="btn btn-secondary">Switch to sign in</button>
         <div className="loader-small js-signup-loader" />
       </form>
     );
