@@ -21,13 +21,13 @@ class Forum extends Component {
 
     this.state = {
       currentSubject: null,
-      expandedAccordionId: null
+      expandedAccordionId: null,
+      updated: 0
     };
   }
 
   componentDidMount() {
     const el = document.querySelector('.js-main');
-    this.props.setLoading(false);
     el.classList = '';
     el.classList.add('main', 'js-main', 'subject-page');
   }
@@ -39,18 +39,18 @@ class Forum extends Component {
           currentSubject: key
         });
       });
+
+      this.props.setLoading(false);
     }
   }
 
   handleToggling(id) {
-    const { expandedAccordionId } = this.state;
+    const { expandedAccordionId, updated } = this.state;
 
-    if (expandedAccordionId === id) {
-      this.setState({ expandedAccordionId: null });
-      return;
-    }
-
-    this.setState({ expandedAccordionId: id });
+    this.setState({
+      expandedAccordionId: expandedAccordionId === id ? null : id,
+      updated: updated + 1
+    });
   }
 
   addThread(e) {
@@ -59,9 +59,10 @@ class Forum extends Component {
     const { name } = this.refs;
 
     if (currentSubject) {
-      this.props.firebase.push(`subjects/${currentSubject}/forum`, { name: name.value, updated: Date.now() })
+      this.props.firebase.push(`subjects/${currentSubject}/forum`, { name: name.value, created: Date.now() })
         .then(() => {
           this.props.setNotification({ message: 'hura', type: 'success' });
+          name.value = '';
         }, (error) => {
           this.props.setNotification({ message: String(error), type: 'error' });
         });
@@ -74,17 +75,18 @@ class Forum extends Component {
         val.id = key;
         return val;
       });
-      const threadsInOrder = _.sortBy(threadsWithID, item => item.updated).reverse();
+
+      const threadsInOrder = _.sortBy(threadsWithID, item => item.created).reverse();
       const { currentSubject, expandedAccordionId } = this.state;
       const { firebase, userData } = this.props;
 
       return threadsInOrder.map((thread, index) => (
         <AccordionItem key={index}>
           <AccordionItemTitle
-            className={`accordion__title thread__title ${expandedAccordionId === index ? 'is-opened' : ''}`}
+            className={`accordion__title thread__title ${expandedAccordionId === (index + 1) ? 'is-opened' : ''}`}
           >
             <div>{thread.name}</div>
-            <div>updated on {new Date(thread.updated).toLocaleString()}</div>
+            <div>created on {new Date(thread.created).toLocaleString()}</div>
           </AccordionItemTitle>
           <AccordionItemBody>
             <Form
@@ -93,6 +95,7 @@ class Forum extends Component {
               subject={currentSubject}
               user={userData.info}
               firebase={firebase}
+              update={this.state.updated}
             />
           </AccordionItemBody>
         </AccordionItem>

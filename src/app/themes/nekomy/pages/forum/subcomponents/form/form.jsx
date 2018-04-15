@@ -19,7 +19,11 @@ export default class Form extends Component {
 
   componentDidUpdate(prevProps) {
     if (_.values(prevProps.messages).length < _.values(this.props.messages).length) {
-      this.scrollBottom();
+      this.stayScrolled();
+    }
+
+    if (prevProps.update < this.props.update) {
+      this.stayScrolled();
     }
   }
 
@@ -44,7 +48,7 @@ export default class Form extends Component {
       };
 
       firebase.push(`subjects/${subject}/forum/${forum}/messages`, newItem);
-      firebase.update(`subjects/${subject}/forum/${forum}`, { updated: Date.now() });
+      // firebase.update(`subjects/${subject}/forum/${forum}`, { updated: Date.now() });
       this.setState({ message: '' });
       this.scrollBottom();
     }

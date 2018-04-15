@@ -34,7 +34,6 @@ class Homework extends Component {
 
   componentDidMount() {
     const el = document.querySelector('.js-main');
-    this.props.setLoading(false);
     el.classList = '';
     el.classList.add('main', 'js-main', 'subject-page');
   }
@@ -46,6 +45,8 @@ class Homework extends Component {
           currentSubject: key
         });
       });
+
+      this.props.setLoading(false);
     }
   }
 
