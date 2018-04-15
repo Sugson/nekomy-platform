@@ -70,16 +70,15 @@ class Forum extends Component {
 
   renderThreads(threads) {
     if (!_.isEmpty(threads)) {
-      const threadsInOrder = _.sortBy(threads, item => item.updated).reverse();
-      const threadsKeys = Object.keys(threads);
-      const threadsArray = _.values(threadsInOrder);
+      const threadsWithID = _.map(threads, (val, key) => {
+        val.id = key;
+        return val;
+      });
+      const threadsInOrder = _.sortBy(threadsWithID, item => item.updated).reverse();
       const { currentSubject, expandedAccordionId } = this.state;
+      const { firebase, userData } = this.props;
 
-      console.log(Object.keys(threads)
-        .sort((a, b) => threads[a] - threads[b])
-        .map((key) => console.log(key)), _.orderBy(threads,'updated','desc'));
-
-      return threadsArray.map((thread, index) => (
+      return threadsInOrder.map((thread, index) => (
         <AccordionItem key={index}>
           <AccordionItemTitle
             className={`accordion__title thread__title ${expandedAccordionId === index ? 'is-opened' : ''}`}
@@ -90,10 +89,10 @@ class Forum extends Component {
           <AccordionItemBody>
             <Form
               messages={thread.messages || []}
-              forum={threadsKeys[index]}
+              forum={thread.id}
               subject={currentSubject}
-              user={this.props.user}
-              firebase={this.props.firebase}
+              user={userData.info}
+              firebase={firebase}
             />
           </AccordionItemBody>
         </AccordionItem>

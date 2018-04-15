@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import firebase from 'firebase';
+import StayScrolled from 'react-stay-scrolled';
 import './form.scss';
 import Message from '../message/message';
 
@@ -9,9 +9,7 @@ export default class Form extends Component {
     super(props);
 
     this.state = {
-      userName: 'Anonymouse',
-      message: '',
-      list: []
+      message: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -19,21 +17,36 @@ export default class Form extends Component {
     this.handleSend = this.handleSend.bind(this);
   }
 
+  componentDidUpdate(prevProps) {
+    if (_.values(prevProps.messages).length < _.values(this.props.messages).length) {
+      this.scrollBottom();
+    }
+  }
+
+  storeScrolledControllers = ({ stayScrolled, scrollBottom }) => {
+    this.stayScrolled = stayScrolled;
+    this.scrollBottom = scrollBottom;
+  }
+
   handleChange(event) {
     this.setState({ message: event.target.value });
   }
 
   handleSend() {
-    console.log(this.props);
-    if (this.state.message) {
+    const { message } = this.state;
+    const { user, firebase, forum, subject } = this.props;
+
+    if (message) {
       const newItem = {
-        userName: this.state.userName,
-        message: this.state.message,
+        userName: user ? user.displayName : 'John Doe',
+        message,
         timestamp: Date.now()
       };
 
-      this.props.firebase.push(`subjects/${this.props.subject}/forum/${this.props.forum}/messages`, newItem);
+      firebase.push(`subjects/${subject}/forum/${forum}/messages`, newItem);
+      firebase.update(`subjects/${subject}/forum/${forum}`, { updated: Date.now() });
       this.setState({ message: '' });
+      this.scrollBottom();
     }
   }
 
@@ -47,11 +60,11 @@ export default class Form extends Component {
 
     return (
       <div className="form">
-        <div className="form__message">
+        <StayScrolled provideControllers={this.storeScrolledControllers} className="form__message">
           { preparedMessages.map((item, index) =>
             <Message key={index} message={item} />
           )}
-        </div>
+        </StayScrolled>
         <div className="form__row">
           <input
             className="form__input"
