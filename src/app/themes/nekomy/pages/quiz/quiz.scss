@@ -1,0 +1,59 @@
+.progress {
+  display: flex;
+  margin: 0 0 30px;
+}
+
+.progress__summary {
+  min-width: 130px;
+}
+
+.list-group {
+  list-style: none;
+  padding: 0;
+}
+
+.list-group-item {
+  display: flex;
+  align-content: center;
+  padding: 5px 0;
+  color: #444444;
+  position: relative;
+  text-align: left;
+
+  input {
+    margin-right: 10px;
+  }
+}
+
+.results {
+  text-align: center;
+}
+
+.results__summary {
+  @extend %u-text--medium;
+}
+
+.results__bar {
+  padding: 60px 0 30px
+}
+
+.results__description {
+  @extend %u-text--medium;
+  padding: 20px 0;
+}
+
+.results__fail {
+  margin-top: 25px;
+  color: $red;
+}
+
+.results__pass {
+  margin-top: 25px;
+  color: $green;
+}
+
+.question__pagination {
+  margin-top: 40px;
+  display: flex;
+  justify-content: flex-end;
+}

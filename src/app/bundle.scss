@@ -39,9 +39,11 @@
 @import './themes/nekomy/pages/activity/activity';
 @import './themes/nekomy/pages/forum/forum';
 @import './themes/nekomy/pages/homework/homework';
+@import './themes/nekomy/pages/quiz/quiz';
 
 // Core admin styles
 @import './core/admin/admin';
 @import './core/common/modalbox/modalbox';
 
-@import '../../node_modules/react-accessible-accordion/dist/fancy-example.css'
+@import '../../node_modules/react-accessible-accordion/dist/fancy-example.css';
+@import '../../node_modules/react-sweet-progress/lib/style.css';

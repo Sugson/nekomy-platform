@@ -31,9 +31,10 @@ class Subject extends Component {
             {subject.title}
           </h1>
           { subject.forum &&
-            <Link to={`/subjects/${subject.slug}/forum`}>{subject.forum.name}</Link>
+            <Link to={`/subjects/${subject.slug}/forum`}>Disussion</Link>
           }
           <Link to={`/subjects/${subject.slug}/homework`}>Homework</Link>
+          <Link to={`/subjects/${subject.slug}/quiz`}>Quiz</Link>
         </div>
       </section>
     ) : <div className="loader-small" />;

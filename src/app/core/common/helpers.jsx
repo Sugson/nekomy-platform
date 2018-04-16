@@ -125,7 +125,9 @@ module.exports = {
             'November',
             'December'
           ];
-          document.querySelector(element).innerHTML = `v${response.data.version.version} (Built on ${date.getDate()} ${monthNames[date.getMonth()]} ${date.getFullYear()})`;
+          if (document.querySelector(element)) {
+            document.querySelector(element).innerHTML = `v${response.data.version.version} (Built on ${date.getDate()} ${monthNames[date.getMonth()]} ${date.getFullYear()})`;
+          }
         }
       });
   },
