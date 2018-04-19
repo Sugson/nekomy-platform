@@ -33,11 +33,11 @@ class Signin extends Component {
 
   render() {
     return (
-      <form className="user-form sign-in" onSubmit={this.handleSignin}>
+      <form className={`user-form sign-in ${this.props.showClass}`} onSubmit={this.handleSignin}>
         <input type="text" className="input-field" ref="email" placeholder="Email" />
         <input type="password" className="input-field" placeholder="Password" ref="password" />
         <button type="submit" className="btn btn-primary js-btn-signin">Sign in</button>
-        <button type="button" onClick={this.props.switchToRegister} className="btn btn-secondary">Switch to sign up</button>
+        <a onClick={this.props.switchToRegister}>I want to sign up</a>
         <div className="loader-small js-signin-loader" />
       </form>
     );

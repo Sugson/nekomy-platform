@@ -5,7 +5,6 @@
     border-radius: 25px;
   padding: 3px 13px;
   display: inline-block;
-	@include scale-anim();
 
     &:focus {
         outline: none !important;

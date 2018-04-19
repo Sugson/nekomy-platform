@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import { compose } from 'redux';
 import { firebaseConnect } from 'react-redux-firebase';
 import { setUser, setPanel, setNotification } from '../../../../core/actions/actions';
@@ -25,25 +26,6 @@ class TopNav extends Component {
     }
   }
 
-  static showForm(event) {
-    const elemForm = document.querySelector('.user-form');
-    const elemOverlay = document.querySelector('.js-overlay');
-    if (elemForm) {
-      elemForm.classList.remove('active');
-    }
-    event.target.nextElementSibling.classList.add('active');
-    animateCss(showElem(elemOverlay), 'fade-in');
-  }
-
-  static closeForm() {
-    const elForm = document.querySelector('.user-form');
-    const elOverlay = document.querySelector('.js-overlay');
-    if (elForm) {
-      elForm.classList.remove('active');
-    }
-    animateCss(elOverlay, 'fade-out', () => { hideElem(elOverlay); });
-  }
-
   constructor(props) {
     super(props);
 
@@ -51,12 +33,15 @@ class TopNav extends Component {
       avatar: '',
       searching: false,
       navigating: false,
-      signUpView: false
+      view: null
     };
 
     this.toggleNav = this.toggleNav.bind(this);
     this.openNav = this.openNav.bind(this);
     this.closeNav = this.closeNav.bind(this);
+    this.toggleForm = this.toggleForm.bind(this);
+    this.showForm = this.showForm.bind(this);
+    this.closeForm = this.closeForm.bind(this);
     this.toggleSearch = this.toggleSearch.bind(this);
     this.openSearch = this.openSearch.bind(this);
     this.closeSearch = this.closeSearch.bind(this);
@@ -70,6 +55,35 @@ class TopNav extends Component {
       document.querySelector('#mode').prop('checked', true);
       document.querySelector('.js-page').classList.add('list-view');
     }
+  }
+
+  showForm(event) {
+    const elemForm = document.querySelector('.user-form');
+    const elemOverlay = document.querySelector('.js-overlay');
+
+    if (elemForm) {
+      elemForm.classList.remove('active');
+    }
+
+    event.target.nextElementSibling.classList.add('active');
+    animateCss(showElem(elemOverlay), 'fade-in');
+  }
+
+  closeForm() {
+    const elForm = document.querySelector('.user-form');
+    const elOverlay = document.querySelector('.js-overlay');
+
+    if (elForm) {
+      elForm.classList.remove('active');
+      this.setState({ view: null });
+    }
+
+    animateCss(elOverlay, 'fade-out', () => { hideElem(elOverlay); });
+  }
+
+  toggleForm() {
+    const { view } = this.state;
+    this.setState({ view: !view || view === 'signin' ? 'signup' : 'signin' });
   }
 
   toggleNav() {
@@ -205,11 +219,9 @@ class TopNav extends Component {
           {(!this.props.user || (this.props.user && !this.props.user.emailVerified))
             ? <div className="user-controls">
               <div className="user-controls-cta sign-in-cta">
-                <button onClick={TopNav.showForm}>Sign in</button>
-                { this.state.signUpView ?
-                  <Signup switchToLogin={() => this.setState({ signUpView: false })} />
-                :
-                  <Signin switchToRegister={() => this.setState({ signUpView: true })} /> }
+                <button className={'top-nav__app-button'} onClick={this.showForm}>Go to app</button>
+                <Signin showClass={this.state.view === 'signin' ? 'active' : ''} switchToRegister={this.toggleForm} />
+                <Signup showClass={this.state.view === 'signup' ? 'active' : ''} switchToLogin={this.toggleForm} />
               </div>
             </div>
           : <div className="user-controls">
@@ -242,7 +254,7 @@ class TopNav extends Component {
           className="overlay js-overlay" onClick={() => {
             this.closeNav();
             this.closeSearch();
-            TopNav.closeForm();
+            this.closeForm();
           }}
         />
       </section>

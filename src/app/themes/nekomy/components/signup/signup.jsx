@@ -52,14 +52,14 @@ class Signup extends Component {
 
   render() {
     return (
-      <form className="user-form sign-up" onSubmit={e => this.handleSignup(e)}>
+      <form className={`user-form sign-up ${this.props.showClass}`} onSubmit={e => this.handleSignup(e)}>
         <input type="text" className="input-field" placeholder="Fist name" ref="firstname" />
         <input type="text" className="input-field" placeholder="Last name" ref="lastname" />
         <input type="email" className="input-field" placeholder="Email" ref="email" />
         <input type="password" className="input-field" placeholder="Password" ref="password" />
         <input type="password" className="input-field" placeholder="Repeat password" ref="password2" />
         <button type="submit" className="btn btn-primary js-btn-signup">Sign up</button>
-        <button type="button" onClick={this.props.switchToLogin} className="btn btn-secondary">Switch to sign in</button>
+        <a onClick={this.props.switchToLogin}>I already have account</a>
         <div className="loader-small js-signup-loader" />
       </form>
     );

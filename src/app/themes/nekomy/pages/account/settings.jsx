@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import md5 from 'md5';
-import { isEmpty, isLoaded } from 'react-redux-firebase';
+import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
+import { compose } from 'redux';
 import { setLoading, setUser, setNotification, setUserData } from '../../../../core/actions/actions';
 import * as CONSTANTS from '../../../../core/constants/constants';
 import { hideElem, showElem } from '../../../../core/common/helpers';
-import Icon from '../../../../core/common/lib/icon/icon';
-import Avatar from '../../../../../../static/svg/avatar.svg';
+import avatarPlaceholder from '../../../../../../static/img/placeholder-avatar.png';
+import Page from '../../components/page/page';
 
 class Settings extends Component {
 
@@ -21,14 +21,16 @@ class Settings extends Component {
   }
 
   componentWillMount() {
+    if (isEmpty(this.state.info) && isLoaded(this.props.userData)) {
+      this.setState({ info: this.props.userData.info });
+    }
+  }
+
+  componentDidMount() {
     const el = document.querySelector('.js-main');
     this.props.setLoading(false);
     el.classList = '';
     el.classList.add('main', 'js-main', 'account-settings-page');
-
-    if (isEmpty(this.state.info) && isLoaded(this.props.userData)) {
-      this.setState({ info: this.props.userData.info });
-    }
   }
 
   componentWillReceiveProps(newProps) {
@@ -105,17 +107,12 @@ class Settings extends Component {
 
   render() {
     return (
-      <section className="account account-settings page">
-        {(this.props.user && this.props.userData && this.state.info)
-          ? <div className="page-wrapper">
-            <div className="columns">
-              <div className="account-details column">
-                <div className="profile-image">
-                  {(this.props.user.email)
-                    ? <img alt="" className="photo" role="presentation" src={`https://www.gravatar.com/avatar/${md5(this.props.user.email)}.jpg?s=150`} />
-                    : <Icon glyph={Avatar} className="icon avatar" />}
-                </div>
-                <a className="update-photo" href="https://www.gravatar.com/" rel="noopener noreferrer" target="_blank">Update photo</a>
+      <Page additionalClass={'account-settings'}>
+        {(this.props.user && this.props.userData && this.state.info) ?
+          <div className="row">
+            <div className="col-xs-12 col-md-6">
+              <div className="account-details">
+                <img alt={'Profile card'} className={'photo'} role={'presentation'} src={avatarPlaceholder} />
                 <input type="text" name="displayName" className="display-name" placeholder="Display name" value={this.state.info.displayName} onChange={this.handleChange} />
                 <input type="email" name="email" ref="email" placeholder="Email" value={this.state.info.email} onChange={this.handleChange} />
 
@@ -124,26 +121,30 @@ class Settings extends Component {
                 <button className="btn btn-primary btn-xs js-btn-password float-right" onClick={() => this.updatePassword()}>Update password</button>
                 <div className="loader-small float-right js-password-loader" />
               </div>
-              <div className="personal-details column">
+            </div>
+            <div className="col-xs-12 col-md-6">
+              <div className="personal-details">
                 <input type="text" placeholder="First names" name="firstName" value={this.state.info.firstName} onChange={this.handleChange} />
                 <input type="text" placeholder="Last name" name="lastName1" value={this.state.info.lastName1} onChange={this.handleChange} />
-                <input type="text" placeholder="2nd last name (optional)" name="lastName2" value={this.state.info.lastName2} onChange={this.handleChange} />
                 <input type="text" placeholder="Address" name="address" value={this.state.info.address} onChange={this.handleChange} />
-                <input type="text" placeholder="Address continuation" name="address2" value={this.state.info.address2} onChange={this.handleChange} />
-                <input type="text" placeholder="Post code" name="postcode" value={this.state.info.postcode} onChange={this.handleChange} />
+                <input type="text" placeholder="Address Cd." name="address2" value={this.state.info.address2} onChange={this.handleChange} />
+                <input type="text" placeholder="Post Code" name="postcode" value={this.state.info.postcode} onChange={this.handleChange} />
                 <input type="text" placeholder="City" name="city" value={this.state.info.city} onChange={this.handleChange} />
                 <input type="text" placeholder="State/Province" name="province" value={this.state.info.province} onChange={this.handleChange} />
-                <input type="text" placeholder="country" name="country" value={this.state.info.country} onChange={this.handleChange} />
+                <input type="text" placeholder="Country" name="country" value={this.state.info.country} onChange={this.handleChange} />
                 <input type="text" placeholder="Language" name="language" value={this.state.info.language} onChange={this.handleChange} />
 
                 <button className="btn btn-primary btn-xs js-btn-info float-right" onClick={() => this.updateUserInfo()}>Update details</button>
                 <div className="loader-small float-right js-info-loader" />
               </div>
-              <div className="other-details column" />
             </div>
           </div>
-          : <div className="loader-small" />}
-      </section>
+          :
+          <div className={'loader-small__container'}>
+            <div className="loader-small" />
+          </div>
+          }
+      </Page>
     );
   }
 }
@@ -162,4 +163,7 @@ const mapStateToProps = ({
   }
 }) => ({ user, userData });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Settings);
+export default compose(
+  firebaseConnect(),
+  connect(mapStateToProps, mapDispatchToProps)
+)(Settings);

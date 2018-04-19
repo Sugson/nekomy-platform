@@ -80,26 +80,23 @@ ReactDOM.render(
         <Route path="/dashboard" component={Dashboard} onEnter={requireAuth} />
         <Route path="/account" component={AccountSettings} onEnter={requireAuth} />
         <Route path="/account/notifications" component={AccountNotifications} onEnter={requireAuth} />
-        <Route path="/courses" component={Listing} />
-        <Route path="/courses/:slug" component={Course} />
-        <Route path="/courses/:slug/register" component={Course} />
-        <Route path="/courses/:slug/subjects" component={Course} />
-        <Route path="/courses/:slug/fees" component={Course} />
-        <Route path="/courses/:slug/requirements" component={Course} />
-        <Route path="/subjects" component={Listing} />
-        <Route path="/subjects/:slug" component={Subject} />
-        <Route path="/subjects/:slug/forum" component={Forum} />
-        <Route path="/subjects/:slug/homework" component={Homework} />
-        <Route path="/subjects/:slug/quiz" component={Quiz} />
-        <Route path="/subjects/:slug/activities" component={Subject} />
-        <Route path="/modules" component={Listing} />
-        <Route path="/modules/:slug" component={Module} />
-        <Route path="/activities" component={Listing} />
-        <Route path="/activities/:slug" component={Activity} />
-        <Route path="/blog" component={Listing} />
-        <Route path="/blog/:slug" component={Post} />
+        <Route path="/courses" component={Listing} onEnter={requireAuth} />
+        <Route path="/courses/:slug" component={Course} onEnter={requireAuth} />
+        <Route path="/courses/:slug/register" component={Course} onEnter={requireAuth} />
+        <Route path="/courses/:slug/subjects" component={Course} onEnter={requireAuth} />
+        <Route path="/courses/:slug/fees" component={Course} onEnter={requireAuth} />
+        <Route path="/courses/:slug/requirements" component={Course} onEnter={requireAuth} />
+        <Route path="/subjects" component={Listing} onEnter={requireAuth} />
+        <Route path="/subjects/:slug" component={Subject} onEnter={requireAuth} />
+        <Route path="/subjects/:slug/forum" component={Forum} onEnter={requireAuth} />
+        <Route path="/subjects/:slug/homework" component={Homework} onEnter={requireAuth} />
+        <Route path="/subjects/:slug/quiz" component={Quiz} onEnter={requireAuth} />
+        <Route path="/subjects/:slug/activities" component={Subject} onEnter={requireAuth} />
+        <Route path="/modules" component={Listing} onEnter={requireAuth} />
+        <Route path="/modules/:slug" component={Module} onEnter={requireAuth} />
+        <Route path="/activities" component={Listing} onEnter={requireAuth} />
+        <Route path="/activities/:slug" component={Activity} onEnter={requireAuth} />
         <Route path="/about" component={Page} />
-        <Route path="/about/jobs" component={Page} />
         <Route path="/about/contact" component={Page} />
         <Route path="/admin" component={Admin} level={ADMIN_LEVEL} onEnter={requireAuth} />
         <Route path="/admin/:type/:action" component={Admin} level={ADMIN_LEVEL} onEnter={requireAuth} />

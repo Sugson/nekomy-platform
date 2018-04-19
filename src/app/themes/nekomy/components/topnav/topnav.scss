@@ -12,7 +12,13 @@
 		@include mobile() {
 			padding: 10px 0;
 		}
-	}
+  }
+
+  .top-nav__app-button {
+    border: 1px solid white;
+    border-radius: 4px;
+    padding: 3px 10px 2px;
+  }
 
 	.star {
 		fill: $white;
@@ -331,7 +337,10 @@
 
 		.user-form.active,
 		.account-cta.active {
-			display: block;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
 		}
 
 		.user-controls-cta {
@@ -353,24 +362,38 @@
 			display: none;
 			position: absolute;
 			right: 20px;
-			background: $white;
-			padding: 20px;
+			background: whitesmoke;
+			padding: 30px;
 			border-radius: 5px;
 			top: 50px;
-			z-index: 2;
+      z-index: 2;
+      margin-top: 10px;
+      min-width: 300px;
 
 			@include mobile() {
 				left: 20px;
 				right: initial;
 			}
 
-			input {
-				margin-bottom: 10px;
-				display: block;
-				border-color: $grey;
-				color: $dark-grey;
-				min-width: 200px;
-			}
+      input {
+        display: block;
+        width: 100%;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        margin-bottom: 10px;
+        background-color: white;
+        padding: 8px 15px;
+        color: black;
+      }
+
+      a {
+        color: $black;
+        text-decoration: underline;
+      }
+
+      button {
+        margin: 10px 0 20px;
+        width: 100%;
+      }
 		}
 
 		.account-nav {
