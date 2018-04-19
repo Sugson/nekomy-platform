@@ -1,8 +1,12 @@
 .page {
   min-height: calc(100vh - 60px);
-  padding-top: 90px;
+  padding-top: 120px;
   padding-bottom: 20px;
 	width: 100%;
+
+  @include mobile() {
+    padding-top: 90px;
+  }
 
 	&.listing-page {
 		min-height: calc(100vh - 110px);

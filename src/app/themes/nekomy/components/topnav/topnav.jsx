@@ -3,23 +3,17 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firebaseConnect } from 'react-redux-firebase';
-import md5 from 'md5';
 import { setUser, setPanel, setNotification } from '../../../../core/actions/actions';
 import Navigation from '../navigation/navigation';
 import Signup from '../signup/signup';
 import Signin from '../signin/signin';
 import { animateCss, hideElem, showElem } from '../../../../core/common/helpers';
 import Icon from '../../../../core/common/lib/icon/icon';
-import Logo from '../../../../../../static/svg/logo.svg';
-import LogoWording from '../../../../../../static/svg/logo-wording.svg';
-import Avatar from '../../../../../../static/svg/avatar.svg';
-import Trophy from '../../../../../../static/svg/trophy.svg';
+import Update from '../../../../../../static/svg/update.svg';
 import Calendar from '../../../../../../static/svg/calendar.svg';
-import Help from '../../../../../../static/svg/question.svg';
 import Search from '../../../../../../static/svg/search.svg';
 import Close from '../../../../../../static/svg/x.svg';
-import Logout from '../../../../../../static/svg/logout.svg';
-import Chat from '../../../../../../static/svg/chat.svg';
+import PowerOff from '../../../../../../static/svg/power-off.svg';
 
 class TopNav extends Component {
 
@@ -200,23 +194,11 @@ class TopNav extends Component {
             >
               {this.props.panel === 'grades'
                 ? <Icon glyph={Close} />
-                : <Icon glyph={Trophy} className="icon trophy" />}
+                : <Icon glyph={Update} className="icon trophy" />}
             </button>
             : ''}
 
-          {(this.props.user)
-            ? <button
-              className="top-nav-item" onClick={() => {
-                this.changePanel('help');
-              }}
-            >
-              {this.props.panel === 'help'
-                ? <Icon glyph={Close} />
-                : <Icon glyph={Help} className="icon info" />}
-            </button>
-            : ''}
-
-          <Link to="/" className="logo">
+          <Link to={`${this.props.user ? '/dashboard' : '/'}`} className="logo">
             iLearn
           </Link>
 
@@ -231,34 +213,15 @@ class TopNav extends Component {
               </div>
             </div>
           : <div className="user-controls">
-            <button
-              className="chat-icon" onClick={() => {
-                this.changePanel('chat');
-              }}
-            >
-              {this.props.panel === 'chat'
-              ? <Icon glyph={Close} className="icon close-chat" />
-              : <Icon glyph={Chat} className="icon chat" />}
-            </button>
 
             <div className="user-controls-cta account-cta">
-              {(this.props.user)
-                ? <Link to="/dashboard">
-                  {(this.props.user.email)
-                    ? <img alt="" className="photo" role="presentation" src={`https://www.gravatar.com/avatar/${md5(this.props.user.email)}.jpg?s=20`} />
-                    : <Icon glyph={Avatar} />}
-                  <span>{this.props.userData && this.props.userData.info
-                      ? this.props.userData.info.displayName
-                      : ''}</span>
-                </Link>
-                : ''}
               <button
                 onClick={() => {
                   this.props.firebase.auth().signOut();
                   this.props.setUser(null);
                 }}
               >
-                <Icon glyph={Logout} className="icon sign-out" />
+                <Icon glyph={PowerOff} className="icon sign-out" />
               </button>
             </div>
           </div>

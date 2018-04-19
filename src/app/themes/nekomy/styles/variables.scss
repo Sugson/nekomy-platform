@@ -35,6 +35,8 @@ $tablet-big: 1024px;
 $desktop: 1200px;
 $desktop-full: 1920px;
 
+$nav-height: 60px;
+
 // Breakpoints map
 // ------------------------------------------
 $breakpoints: (
@@ -52,4 +54,5 @@ $typo-size: (
   'medium': ($mobile: 14px, $desktop: 18px),
   'big': ($mobile: 18px, $desktop: 30px),
   'large': ($mobile: 32px, $desktop: 50px),
+  'extra-large': ($mobile: 40px, $desktop: 70px),
 );

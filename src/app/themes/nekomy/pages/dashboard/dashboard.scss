@@ -49,3 +49,152 @@
 		}
 	}
 }
+
+
+.dashboard__user-card {
+  padding: 30px;
+  background-color: whitesmoke;
+  text-align: center;
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .name {
+    @extend %u-text--medium;
+    margin-bottom: 5px;
+  }
+
+  .email {
+    @extend %u-text--small;
+    margin: 0;
+  }
+
+  .photo {
+    border-radius: 50%;
+    width: 50%;
+    max-width: 100px;
+    margin-bottom: 20px;
+  }
+
+  .settings {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
+}
+
+.dashboard__calendar-card {
+  padding: 30px 60px;
+  background-color: whitesmoke;
+  text-align: center;
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .day {
+    @extend %u-text--extra-large;
+  }
+
+  .weekday {
+    @extend %u-text--medium;
+    text-transform: uppercase;
+  }
+}
+
+.dashboard__courses {
+  display: flex;
+	flex-wrap: wrap;
+  padding: 0;
+
+  .sub-items-list {
+    margin: 10px 0 20px;
+    padding-top: 20px;
+
+    &:after {
+      content: '';
+      border-top: 3px solid $white;
+      position: absolute;
+      top: 5px;
+      left: 0;
+      width: 200%;
+      margin: 0 -50%;
+    }
+  }
+}
+
+.dashboard__course-card {
+  @extend %u-text--big;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  background-color: whitesmoke;
+  text-align: center;
+  position: relative;
+  border: 1px solid whitesmoke;
+
+  .date,
+  .teachers {
+    @extend %u-text--small;
+    margin: 3px 0 15px;
+  }
+
+  .subject-item {
+    @extend %u-text--medium;
+  }
+}
+
+.dashboard__title {
+  @extend %u-text--medium;
+  padding: 25px 0 0;
+  text-transform: uppercase;
+  font-weight: 300;
+  margin: 25px 0;
+}
+
+.dashboard__calendar {
+  @extend %u-text--small;
+  display: flex;
+  height: 100%;
+
+  @include desktop() {
+    .no-padding {
+      > * {
+        padding: 0;
+      }
+    }
+  }
+}
+
+.dashboard__calendar-full {
+  background-color: whitesmoke;
+  border: none;
+  border-left: 3px solid white;
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+  min-width: 250px;
+
+  .react-calendar__tile {
+    border-radius: 50%;
+  }
+
+  .react-calendar__month-view__weekdays__weekday {
+    padding: 0;
+  }
+
+  .react-calendar__navigation {
+    margin-bottom: 0;
+  }
+
+  .react-calendar__navigation__next2-button,
+  .react-calendar__navigation__prev2-button {
+    display: none;
+  }
+}
+

@@ -58,7 +58,7 @@ class Course extends Component {
       hideElem(this.refs['btn-enroll']);
       showElem(this.refs['loader-enroll']);
 
-      this.props.firebase.set(`users/${this.props.user.uid}/courses/${courseID}}`, courseData).then(() => {
+      this.props.firebase.set(`users/${this.props.user.uid}/courses/${courseID}`, courseData).then(() => {
         showElem(this.refs['btn-enroll']);
         hideElem(this.refs['loader-enroll']);
         this.props.setNotification({ message: CONSTANTS.ENROLLED_COURSE, type: 'success' });

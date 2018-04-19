@@ -9,16 +9,10 @@ import Search from '../search/search';
 import Icon from '../../../../core/common/lib/icon/icon';
 import Trophy from '../../../../../../static/svg/trophy.svg';
 import Calendar from '../../../../../../static/svg/calendar.svg';
-import Info from '../../../../../../static/svg/info.svg';
 import SearchIcon from '../../../../../../static/svg/search.svg';
 import Close from '../../../../../../static/svg/x.svg';
 import Forward from '../../../../../../static/svg/forward.svg';
-import Chat from '../../../../../../static/svg/chat.svg';
 import Course from '../../../../../../static/svg/course.svg';
-// import Subject from '../../../../../../static/svg/subject.svg';
-// import Module from '../../../../../../static/svg/module.svg';
-import Activity from '../../../../../../static/svg/activity.svg';
-import Post from '../../../../../../static/svg/post.svg';
 import Admin from '../../../../../../static/svg/cog.svg';
 import Dashboard from '../../../../../../static/svg/dashboard.svg';
 import Team from '../../../../../../static/svg/team.svg';
@@ -35,28 +29,12 @@ const defaultProps = {
       id: 12,
       title: 'Account',
       icon: Account,
-      children: [
-        {
-          id: 13,
-          title: 'My account',
-          link: '/account'
-        }
-      ]
+      link: '/account'
     }, {
       id: 1,
       title: 'Courses',
       icon: Course,
       link: '/courses'
-    }, {
-      id: 4,
-      title: 'Activities',
-      icon: Activity,
-      link: '/activities'
-    }, {
-      id: 5,
-      title: 'Blog',
-      icon: Post,
-      link: '/blog'
     }, {
       id: 6,
       title: 'About',
@@ -66,10 +44,6 @@ const defaultProps = {
           id: 7,
           title: 'Summary',
           link: '/about'
-        }, {
-          id: 8,
-          title: 'Jobs',
-          link: '/about/jobs'
         }, {
           id: 10,
           title: 'Contact',
@@ -172,23 +146,11 @@ class Navigation extends Component {
                 <td>
                   <button
                     className="mobile-nav-item" onClick={() => {
-                      this.props.toggleNav();
-                    }}
-                  >
-                    <Icon glyph={Info} className="icon info" />
-                  </button>
-                </td>
-                <td>
-                  <button
-                    className="mobile-nav-item" onClick={() => {
                       this.props.toggleSearch();
                     }}
                   >
                     <Icon glyph={SearchIcon} className="icon search" />
                   </button>
-                </td>
-                <td>
-                  <button className="mobile-nav-item"><Icon glyph={Chat} /></button>
                 </td>
               </tr>
             </tbody>

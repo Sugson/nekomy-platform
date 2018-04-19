@@ -1,3 +1,7 @@
+@import '../../node_modules/react-accessible-accordion/dist/fancy-example.css';
+@import '../../node_modules/react-sweet-progress/lib/style.css';
+@import '../../node_modules/react-calendar/dist/Calendar.css';
+
 // Current theme common styles
 @import './themes/nekomy/styles/variables';
 @import './themes/nekomy/styles/mixins';
@@ -44,6 +48,3 @@
 // Core admin styles
 @import './core/admin/admin';
 @import './core/common/modalbox/modalbox';
-
-@import '../../node_modules/react-accessible-accordion/dist/fancy-example.css';
-@import '../../node_modules/react-sweet-progress/lib/style.css';

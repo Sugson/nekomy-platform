@@ -7,9 +7,11 @@ export default class Page extends Component {
     return (
       <div className={`page ${additionalClass}`}>
         <div className={'page-wrapper'}>
-          <div className={'page__headline'}>
-            { headline }
-          </div>
+          { headline &&
+            <div className={'page__headline'}>
+              { headline }
+            </div>
+          }
           { children }
         </div>
       </div>
@@ -19,6 +21,7 @@ export default class Page extends Component {
 
 Page.defaultProps = {
   additionalClass: '',
+  headline: ''
 };
 
 Page.propTypes = {
@@ -27,6 +30,6 @@ Page.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
   ]).isRequired,
-  headline: PropTypes.string.isRequired
+  headline: PropTypes.string
 };
 
