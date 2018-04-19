@@ -14,6 +14,7 @@ class Signup extends Component {
 
     if (password.value === password2.value) {
       hideElem('.js-btn-signup');
+      hideElem('.js-link-signin');
       showElem('.js-signup-loader');
 
       const email = String(this.refs.email.value);
@@ -22,6 +23,7 @@ class Signup extends Component {
         this.saveUser(user, firstname.value, lastname.value, email);
       }).catch((error) => {
         showElem('.js-btn-signup');
+        showElem('.js-link-signin');
         hideElem('.js-signup-loader');
         this.props.setNotification({ message: String(error), type: 'error' });
       });
@@ -39,12 +41,14 @@ class Signup extends Component {
     }).then(() => {
       user.sendEmailVerification();
       showElem('.js-btn-signup');
+      showElem('.js-link-signin');
       hideElem('.js-signup-loader');
       document.querySelector('.js-overlay').click();
       this.props.setNotification({ message: USER_CONFIRM_EMAIL, type: 'success' });
     })
     .catch((error) => {
       showElem('.js-btn-signup');
+      showElem('.js-link-signin');
       hideElem('.js-signup-loader');
       this.props.setNotification({ message: String(error), type: 'error' });
     });
@@ -59,7 +63,7 @@ class Signup extends Component {
         <input type="password" className="input-field" placeholder="Password" ref="password" />
         <input type="password" className="input-field" placeholder="Repeat password" ref="password2" />
         <button type="submit" className="btn btn-primary js-btn-signup">Sign up</button>
-        <a onClick={this.props.switchToLogin}>I already have account</a>
+        <a className="js-link-signin" onClick={this.props.switchToLogin}>I already have account</a>
         <div className="loader-small js-signup-loader" />
       </form>
     );
