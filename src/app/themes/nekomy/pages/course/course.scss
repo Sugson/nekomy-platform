@@ -1,31 +1,69 @@
 .course {
-	
+
 	.btn-enroll {
 		margin: 20px auto;
 		display: block;
 		text-align: center;
 	}
-	
+
 	.loader-enroll {
 		display: none;
 		margin: 20px auto;
 	}
-	
+
 	.info {
 		margin-bottom: 20px;
-		
+
 		span {
 			font-weight: bold;
 			margin-right: 10px;
-			
+
 			&:last-child {
 				margin-left: 10px;
 			}
 		}
 	}
-	
+
 	.info-icon {
 		fill: $blue;
 		margin-right: 10px;
 	}
+}
+
+.courses-card {
+  color: black;
+  min-width: 300px;
+
+  .card-meta {
+    margin: 15px 0;
+
+    .card-date {
+      margin: 0;
+    }
+  }
+
+  .card-wrapper {
+    margin: 20px 20px 0;
+  }
+
+  .card-title {
+    margin: 15px 0 10px;
+    font-size: 20px;
+    line-height: 26px;
+    font-weight: lighter;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .card-meta .icon {
+    margin: -3px 8px 0 0;
+  }
+
+  .card-content {
+    font-size: 12px;
+  }
 }

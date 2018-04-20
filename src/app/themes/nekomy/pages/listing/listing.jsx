@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import { compose } from 'redux';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { renderCards } from '../../../../core/common/helpers';
 import { setLoading } from '../../../../core/actions/actions';
+import Page from '../../components/page/page';
 
 class Listing extends Component {
   componentDidMount() {
@@ -23,17 +25,16 @@ class Listing extends Component {
     }
 
     if (isLoaded(this.props[type]) && !isEmpty(this.props[type]) && isLoaded(this.props.files)) {
-      items = <ul className="cards-list">{renderCards(path, this.props)}</ul>;
+      items = <ul className="cards-list row">{renderCards(path, this.props)}</ul>;
     } else {
       items = <div className="loader-small" />;
     }
     return (
-      <section className="page listing-page">
+      <Page additionalClass={'listing-page'} headline={_.capitalize(path)}>
         <div className="cards">
-          <h1 className="cards-heading">{path}</h1>
           {items}
         </div>
-      </section>
+      </Page>
     );
   }
 }

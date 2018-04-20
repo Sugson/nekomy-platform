@@ -84,7 +84,7 @@ ReactDOM.render(
         <Route path="/courses/:slug" component={Course} onEnter={requireAuth} />
         <Route path="/courses/:slug/register" component={Course} onEnter={requireAuth} />
         <Route path="/courses/:slug/subjects" component={Course} onEnter={requireAuth} />
-        <Route path="/courses/:slug/fees" component={Course} onEnter={requireAuth} />
+        <Route path="/courses/:slug/goals" component={Course} onEnter={requireAuth} />
         <Route path="/courses/:slug/requirements" component={Course} onEnter={requireAuth} />
         <Route path="/subjects" component={Listing} onEnter={requireAuth} />
         <Route path="/subjects/:slug" component={Subject} onEnter={requireAuth} />

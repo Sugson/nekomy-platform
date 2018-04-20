@@ -12,7 +12,7 @@
 	margin-bottom: 50px;
 	margin-left: auto;
 	margin-right: auto;
-	
+
 	.loader-small {
 		display: block;
 		margin: 0 auto;
@@ -22,7 +22,7 @@
 .cards-list {
 	list-style-type: none;
 	width: fit-content;
-	padding: 0 20px;
+	padding: 0;
 
 	@include mobile() {
 		padding: 0;
@@ -31,22 +31,11 @@
 
 .card {
 	display: inline-block;
-	min-width: 250px;
-    max-width: 23%;
 	vertical-align: top;
-	background-color: white;
-	text-align: left;
-	margin: 10px;
-
-	@include desktop() {
-		@include scale-anim(1.05);
-	}
-
-	@media (max-width: 600px) {
-		width: 100%;
-		max-width: 100%;
-		margin: 0 0 20px 0;
-	}
+	background-color: whitesmoke;
+  text-align: left;
+  position: relative;
+  min-width: 300px;
 
 	&:last-child {
 		margin-right: 0;
@@ -56,18 +45,11 @@
 		width: 100%;
 		text-align: center;
 		height: 150px;
-		border-top-left-radius: 5px;
-		border-top-right-radius: 5px;
 		margin-bottom: 10px;
 		display: table;
 		font-size: 70px;
 		color: $white;
 		background-color: #6ad0dc;
-		
-		@media (max-width: 600px) {
-			border-top-left-radius: 0;
-			border-top-right-radius: 0;
-		}
 
 		span {
 			display: table-cell;
@@ -154,7 +136,7 @@
 		.card-enrolled {
 			font-size: 14px;
 			padding-top: 8px;
-			display: inline-block;	
+			display: inline-block;
 		}
 
 		.card-price {

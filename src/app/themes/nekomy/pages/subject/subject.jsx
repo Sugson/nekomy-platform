@@ -4,6 +4,11 @@ import { compose } from 'redux';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { Link } from 'react-router';
 import { setLoading } from '../../../../core/actions/actions';
+import Icon from '../../../../core/common/lib/icon/icon';
+import Chat from '../../../../../../static/svg/chat.svg';
+import Quiz from '../../../../../../static/svg/activity.svg';
+import Home from '../../../../../../static/svg/home.svg';
+import Page from '../../components/page/page';
 
 class Subject extends Component {
 
@@ -16,7 +21,6 @@ class Subject extends Component {
 
   render() {
     let subject = null;
-    const section = this.props.location.pathname.substr(this.props.location.pathname.lastIndexOf('/') + 1);
 
     if (isLoaded(this.props.subject) && !isEmpty(this.props.subject)) {
       subject = Object.keys(this.props.subject)
@@ -25,18 +29,36 @@ class Subject extends Component {
     }
 
     return subject ? (
-      <section className="page subject">
-        <div className="page-wrapper">
-          <h1 className="title">
-            {subject.title}
-          </h1>
-          { subject.forum &&
-            <Link to={`/subjects/${subject.slug}/forum`}>Disussion</Link>
-          }
-          <Link to={`/subjects/${subject.slug}/homework`}>Homework</Link>
-          <Link to={`/subjects/${subject.slug}/quiz`}>Quiz</Link>
+      <Page additionalClass={'subject'} headline={subject.title}>
+        <div className="row start">
+          <div className="col-xs-12 col-sm-4">
+            { subject.forum &&
+              <Link to={`/subjects/${subject.slug}/forum`}>
+                <div className={'box subject__card'}>
+                  <Icon glyph={Chat} />
+                  <p>Disussion</p>
+                </div>
+              </Link>
+            }
+          </div>
+          <div className="col-xs-12 col-sm-4">
+            <Link to={`/subjects/${subject.slug}/homework`}>
+              <div className={'box subject__card'}>
+                <Icon glyph={Home} />
+                <p>Homework</p>
+              </div>
+            </Link>
+          </div>
+          <div className="col-xs-12 col-sm-4">
+            <Link to={`/subjects/${subject.slug}/quiz`}>
+              <div className={'box subject__card'}>
+                <Icon glyph={Quiz} />
+                <p>Quiz</p>
+              </div>
+            </Link>
+          </div>
         </div>
-      </section>
+      </Page>
     ) : <div className="loader-small" />;
   }
 }

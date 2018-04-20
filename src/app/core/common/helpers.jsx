@@ -29,52 +29,39 @@ module.exports = {
           : item.date;
 
       if (item && item.status && item.status !== 'inactive') {
-        return (<li key={key} ref={`item-${key}`} className={`card ${type}-card`}>
-          <Link to={`/${path}/${item.slug}`}>{item.featuredImage
-              ? <div
-                className="card-thumb card-image" style={{
-                  backgroundImage: `url(${props.files[item.featuredImage].url})`
-                }}
-              />
-              : <div className="card-thumb">
-                <span>{item.code}</span>
-              </div>}</Link>
-          <div className="card-wrapper clearfix">
-            <h3 className="card-title">
-              <Link to={`/${path}/${item.slug}`}>{item.title}</Link>
-            </h3>
-            <div className="card-meta">
-              <p><Icon glyph={Calendar} />{(type === 'courses')
-                  ? 'Starts '
-                  : ''}
-                <span className="card-date">{item.startDate || item.date
-                    ? moment(date).format('D/M/YYYY')
-                    : 'anytime'}</span>
-                {(type === 'courses' && item.level)
-                  ? <span><Icon glyph={Course} />{props.levels[item.level].code}</span>
-                  : ''}
-              </p>
-            </div>
-            <div
-              className="card-content" dangerouslySetInnerHTML={{
-                __html: converter.makeHtml(item.content1)
-              }}
-            />
-            {(type === 'posts')
-              ? <div className="card-actions">
-                <button className="btn btn-xs btn-secondary float-right">
-                  <Link to={`/${path}/${item.slug}`}>Read more</Link>
-                </button>
-              </div>
-              : <div className="card-info">
-                <span className="card-enrolled"><Icon glyph={Users} />
-                  1.5K enrolled</span>
-                {item.price
-                  ? <span className="card-price">{item.price}€</span>
-                  : ''}
-              </div>}
+        return (
+          <div className={' col-xs-12 col-sm-4'}>
+            <Link to={`/${path}/${item.slug}`}>
+              <li key={key} ref={`item-${key}`} className={`box card ${type}-card`}>
+                <Link to={`/${path}/${item.slug}`}>{item.featuredImage
+                    ? <div
+                      className="card-thumb card-image" style={{
+                        backgroundImage: `url(${props.files[item.featuredImage].url})`
+                      }}
+                    />
+                    : <div className="card-thumb">
+                      <span>{item.code}</span>
+                    </div>}</Link>
+                <div className="card-wrapper clearfix">
+                  <h3 className="card-title">
+                    {item.title}
+                  </h3>
+                  <div className="card-meta">
+                    { (item.startDate || item.endDate) && <Icon glyph={Calendar} />}
+                    { item.startDate && moment(date).format('DD.MM.YYYY') }
+                    { (item.startDate || item.endDate) && <span>&nbsp;-&nbsp;</span> }
+                    { item.endDate && moment(item.endDate).format('DD.MM.YYYY') }
+                  </div>
+                  <div
+                    className="card-content" dangerouslySetInnerHTML={{
+                      __html: converter.makeHtml(item.excerpt)
+                    }}
+                  />
+                </div>
+              </li>
+            </Link>
           </div>
-        </li>);
+        );
       }
       return '';
     });

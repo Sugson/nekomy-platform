@@ -26,7 +26,6 @@ class Breadcrumbs extends Component {
         }
       }
 
-      newTrail.reverse();
       this.props.setBreadcrumbs(newTrail);
     });
   }

@@ -2,12 +2,19 @@ import React, { Component, PropTypes } from 'react';
 
 export default class Page extends Component {
   render() {
-    const { additionalClass, children, headline } = this.props;
+    const { additionalClass, children, headline, image } = this.props;
 
     return (
       <div className={`page ${additionalClass}`}>
         <div className={'page-wrapper'}>
-          { headline &&
+          { image && headline &&
+            <div className={'page__image-wrapper'} style={{ backgroundImage: `url(${image})` }}>
+              <div className={'page__headline'}>
+                { headline }
+              </div>
+            </div>
+          }
+          { !image && headline &&
             <div className={'page__headline'}>
               { headline }
             </div>
@@ -21,7 +28,8 @@ export default class Page extends Component {
 
 Page.defaultProps = {
   additionalClass: '',
-  headline: ''
+  headline: '',
+  image: ''
 };
 
 Page.propTypes = {
@@ -30,6 +38,7 @@ Page.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
   ]).isRequired,
-  headline: PropTypes.string
+  headline: PropTypes.string,
+  image: PropTypes.string
 };
 

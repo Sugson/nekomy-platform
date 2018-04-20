@@ -14,6 +14,7 @@ import Icon from '../../../../core/common/lib/icon/icon';
 import Level from '../../../../../../static/svg/course.svg';
 import Info from '../../../../../../static/svg/info.svg';
 import Calendar from '../../../../../../static/svg/calendar2.svg';
+import Page from '../../components/page/page';
 
 class Course extends Component {
 
@@ -126,160 +127,132 @@ class Course extends Component {
       });
     }
 
-    return (
-      <section className="page course">
-        {course
-          ? <div className="page-wrapper">
-            <h1 className="title">{course.title}</h1>
-            <div className="meta">
-              <Icon glyph={Level} /> {this.props.levels[course.level].title}
-              ({this.props.levels[course.level].code}) ({totalCredits}
-              Credits)
-              <Icon glyph={Calendar} />Enrollment from
-              <span className="date">{moment(course.startDate).format('D MMMM YYYY')}</span>
-              until
-              <span className="date">{moment(course.endDate).format('D MMMM YYYY')}</span>
-              {isLoaded(this.props.userData) && !isEmpty(this.props.userData) && this.props.userData.info.level >= CONSTANTS.ADMIN_LEVEL
-                ? <Edit editLink={`/admin/courses/edit/${course.slug}`} newLink="/admin/courses/new" />
-                : ''}
-            </div>
-            {section !== 'subjects' && subjects && enrollmentOpened
-              ? <button className="btn btn-primary btn-enroll">
-                <Link to={`/courses/${course.slug}/subjects`}>Enrol now!</Link>
-              </button>
-              : ''}
-            <ul className="horizontal-nav">
-              <li
-                className={classNames('horizontal-nav-item', {
-                  active: section === this.props.params.slug
-                })}
-              >
-                <Link to={`/courses/${course.slug}`}>Summary</Link>
-              </li>
-              <li
-                className={classNames('horizontal-nav-item', {
-                  active: section === 'subjects',
-                  hidden: !subjects
-                })}
-              >
-                <Link to={`/courses/${course.slug}/subjects`}>Subjects</Link>
-              </li>
-              <li
-                className={classNames('horizontal-nav-item', {
-                  active: section === 'fees'
-                })}
-              >
-                <Link to={`/courses/${course.slug}/fees`}>Fees</Link>
-              </li>
-              <li
-                className={classNames('horizontal-nav-item', {
-                  active: section === 'requirements'
-                })}
-              >
-                <Link to={`/courses/${course.slug}/requirements`}>Requirements</Link>
-              </li>
-            </ul>
+    return course ? (
+      <Page additionalClass={'course'} headline={course && course.title} image={featuredImage.url}>
+        <div className="meta">
+          <Icon glyph={Calendar} />Enrollment from
+          <span className="date">{moment(course.startDate).format('D MMMM YYYY')}</span>
+          until
+          <span className="date">{moment(course.endDate).format('D MMMM YYYY')}</span>
+        </div>
+        {section !== 'subjects' && subjects && enrollmentOpened
+          ? <button className="btn btn-primary btn-enroll">
+            <Link to={`/courses/${course.slug}/subjects`}>Enrol now!</Link>
+          </button>
+          : ''}
+        <ul className="horizontal-nav">
+          <li
+            className={classNames('horizontal-nav-item', {
+              active: section === this.props.params.slug
+            })}
+          >
+            <Link to={`/courses/${course.slug}`}>About course</Link>
+          </li>
+          <li
+            className={classNames('horizontal-nav-item', {
+              active: section === 'goals'
+            })}
+          >
+            <Link to={`/courses/${course.slug}/goals`}>Course goals</Link>
+          </li>
+          <li
+            className={classNames('horizontal-nav-item', {
+              active: section === 'subjects',
+              hidden: !subjects
+            })}
+          >
+            <Link to={`/courses/${course.slug}/subjects`}>Subjects</Link>
+          </li>
+        </ul>
+        <div
+          className={classNames('columns', {
+            'single-column': (!course.content2 && !course.content2),
+            hidden: (section !== this.props.params.slug)
+          })}
+        >
+          <div className="column page-content">
             <div
-              className={classNames('columns', {
-                'single-column': (!course.content2 && !course.content2),
-                hidden: (section !== this.props.params.slug)
-              })}
-            >
-              <div className="column page-content">
-                {featuredImage
-                  ? <img alt="" className="featured-image" role="presentation" src={featuredImage.url} />
-                  : ''}
-                <div
-                  className="content" dangerouslySetInnerHTML={{
-                    __html: CONSTANTS.converter.makeHtml(course.content1)
-                  }}
-                />
-              </div>
-              {course.content2
-                ? <div className="column page-sidebar">
-                  <div
-                    className="content" dangerouslySetInnerHTML={{
-                      __html: CONSTANTS.converter.makeHtml(course.content2)
-                    }}
-                  />
-                </div>
-                : ''}
-              {course.content3
-                ? <div className="column page-sidebar">
-                  <div
-                    className="content" dangerouslySetInnerHTML={{
-                      __html: CONSTANTS.converter.makeHtml(course.content3)
-                    }}
-                  />
-                </div>
-                : ''}
-            </div>
-            <div
-              className={classNames('columns single-column', {
-                hidden: (section !== 'subjects')
-              })}
-            >
-              <div className="column page-content">
-                {!isLoaded(this.props.userData) || isEmpty(this.props.userData)
-                  ? <p><Icon glyph={Info} className="icon info-icon" />Sign in to enrol in this course</p>
-                  : null}
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Code</th>
-                      <th>Subject</th>
-                      <th>Teacher(s)</th>
-                      <th>Credits</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {subjects}
-                  </tbody>
-                </table>
-                {enrollmentOpened && isLoaded(this.props.userData) && !isEmpty(this.props.userData)
-                  ? <button ref="btn-enroll" className="btn btn-primary btn-enroll float-right" onClick={() => this.enrolConfirmation()}>Proceed with the registration</button>
-                  : ''}
-                <div ref="loader-enroll" className="loader-small loader-enroll" />
-              </div>
-            </div>
-            <div
-              className={classNames('columns single-column', {
-                hidden: (section !== 'fees')
-              })}
-            >
-              <div className="column page-content">
-                <div className="info">
-                  <span>Registration fee:
-                  </span>{course.registrationFee}€
-                  <span>Credits fee:
-                  </span>
-                  {course.creditFee}€
-                </div>
-                <div
-                  className="content" dangerouslySetInnerHTML={{
-                    __html: CONSTANTS.converter.makeHtml(course.fees)
-                  }}
-                />
-              </div>
-            </div>
-            <div
-              className={classNames('columns single-column', {
-                hidden: (section !== 'requirements')
-              })}
-            >
-              <div className="column page-content">
-                <div
-                  className="content" dangerouslySetInnerHTML={{
-                    __html: CONSTANTS.converter.makeHtml(course.requirements)
-                  }}
-                />
-              </div>
-            </div>
+              className="content" dangerouslySetInnerHTML={{
+                __html: CONSTANTS.converter.makeHtml(course.content1)
+              }}
+            />
           </div>
-          : <div className="loader-small" />}
+          {course.content2
+            ? <div className="column page-sidebar">
+              <div
+                className="content" dangerouslySetInnerHTML={{
+                  __html: CONSTANTS.converter.makeHtml(course.content2)
+                }}
+              />
+            </div>
+            : ''}
+          {course.content3
+            ? <div className="column page-sidebar">
+              <div
+                className="content" dangerouslySetInnerHTML={{
+                  __html: CONSTANTS.converter.makeHtml(course.content3)
+                }}
+              />
+            </div>
+            : ''}
+        </div>
+        <div
+          className={classNames('columns single-column', {
+            hidden: (section !== 'subjects')
+          })}
+        >
+          <div className="column page-content">
+            {!isLoaded(this.props.userData) || isEmpty(this.props.userData)
+              ? <p><Icon glyph={Info} className="icon info-icon" />Sign in to enrol in this course</p>
+              : null}
+            <table>
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Subject</th>
+                  <th>Teacher(s)</th>
+                  <th>Credits</th>
+                </tr>
+              </thead>
+              <tbody>
+                {subjects}
+              </tbody>
+            </table>
+            {enrollmentOpened && isLoaded(this.props.userData) && !isEmpty(this.props.userData)
+              ? <button ref="btn-enroll" className="btn btn-primary btn-enroll float-right" onClick={() => this.enrolConfirmation()}>Proceed with the registration</button>
+              : ''}
+            <div ref="loader-enroll" className="loader-small loader-enroll" />
+          </div>
+        </div>
+        <div
+          className={classNames('columns single-column', {
+            hidden: (section !== 'goals')
+          })}
+        >
+          <div className="column page-content">
+            <div
+              className="content" dangerouslySetInnerHTML={{
+                __html: CONSTANTS.converter.makeHtml(course.fees)
+              }}
+            />
+          </div>
+        </div>
+        <div
+          className={classNames('columns single-column', {
+            hidden: (section !== 'requirements')
+          })}
+        >
+          <div className="column page-content">
+            <div
+              className="content" dangerouslySetInnerHTML={{
+                __html: CONSTANTS.converter.makeHtml(course.requirements)
+              }}
+            />
+          </div>
+        </div>
         <ModalBox title={this.state.modalTitle} answer={this.modalBoxAnswer} />
-      </section>
-    );
+      </Page>
+    ) : <div className="loader-small" />;
   }
 }
 
