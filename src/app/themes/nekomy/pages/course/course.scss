@@ -1,15 +1,21 @@
 .course {
-
 	.btn-enroll {
-		margin: 20px auto;
-		display: block;
-		text-align: center;
+    display: block;
+    text-align: center;
+    margin: 40px auto 20px;
 	}
 
 	.loader-enroll {
 		display: none;
 		margin: 20px auto;
 	}
+
+  .course__enrollment {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 40px 0;
+  }
 
 	.info {
 		margin-bottom: 20px;
@@ -27,7 +33,16 @@
 	.info-icon {
 		fill: $blue;
 		margin-right: 10px;
-	}
+  }
+
+  .meta {
+    padding: 0;
+    text-align: left;
+
+    .icon {
+      margin-bottom: 4px;
+    }
+  }
 }
 
 .courses-card {

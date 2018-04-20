@@ -41,16 +41,34 @@ table {
 // Horizontal nav
 .horizontal-nav {
 	list-style-type: none;
-	width: fit-content;
-	margin: 20px auto 0 auto;
-	padding: 0;
+  border-bottom: 2px solid whitesmoke;
+  padding: 0 0 10px 0;
+  width: 100%;
+	margin: 20px 0 30px;
 
 	.horizontal-nav-item {
 		display: inline-block;
-		padding: 0 10px;
+    padding: 0 20px;
+
+    &:first-child {
+      padding: 0 20px 0 0;
+    }
 
 		&.active {
-			font-weight: bold;
+      position: relative;
+      font-weight: bold;
+
+      &:before {
+        content: '';
+        position: absolute;
+        bottom: -12px;
+        background: #138ce4;
+        left: -5px;
+        height: 2px;
+        width: 50%;
+        margin: 0 auto;
+        right: 0;
+      }
 		}
 	}
 }

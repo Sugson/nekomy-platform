@@ -98,10 +98,13 @@ class Dashboard extends Component {
         key={subject.code}
         className="subject-item"
       >
-        <Link to={`/subjects/${subject.slug}`}>
-          { subject.title }
-        </Link>
-        <br />
+        { subject.status !== 'active' ?
+          <div>{ subject.shortTitle }</div>
+        :
+          <Link to={`/subjects/${subject.slug}`}>
+            { subject.shortTitle }
+          </Link>
+        }
         { subject.teachers && this.renderTeachers(subject.teachers) }
       </li>
     ));
@@ -114,8 +117,8 @@ class Dashboard extends Component {
     if (users && teachers) {
       teachers.forEach((teacherKey) => {
         if (users[teacherKey]) {
-          const { firstName, lastName1, lastName2 } = users[teacherKey].info;
-          teachersList.push(`${firstName} ${lastName1} ${lastName2}`);
+          const { displayName } = users[teacherKey].info;
+          teachersList.push(displayName);
         }
       });
     }
@@ -135,7 +138,7 @@ class Dashboard extends Component {
 
     return (
       <Page additionalClass={'dashboard'}>
-        <div className="row start">
+        <div className="row start dashboard__user-row">
           <div className="col-xs-12 col-sm-4">
             { !_.isEmpty(userData) ?
               <div className={'dashboard__user-card'}>

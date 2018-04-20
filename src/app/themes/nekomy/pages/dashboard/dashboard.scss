@@ -147,6 +147,11 @@
   .subject-item {
     @extend %u-text--medium;
   }
+
+  &.disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
 }
 
 .dashboard__title {
@@ -198,3 +203,10 @@
   }
 }
 
+.dashboard__user-row {
+  margin-top: 30px;
+}
+
+.subject-item {
+  padding: 0 0 10px 0;
+}

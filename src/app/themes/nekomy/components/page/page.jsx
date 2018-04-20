@@ -6,14 +6,14 @@ export default class Page extends Component {
 
     return (
       <div className={`page ${additionalClass}`}>
-        <div className={'page-wrapper'}>
-          { image && headline &&
-            <div className={'page__image-wrapper'} style={{ backgroundImage: `url(${image})` }}>
-              <div className={'page__headline'}>
-                { headline }
-              </div>
+        { image && headline &&
+          <div className={'page__image-wrapper'} style={{ backgroundImage: `url(${image})` }}>
+            <div className={'page__headline'}>
+              { headline }
             </div>
-          }
+          </div>
+        }
+        <div className={'page-wrapper'}>
           { !image && headline &&
             <div className={'page__headline'}>
               { headline }

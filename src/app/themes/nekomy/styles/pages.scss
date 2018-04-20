@@ -1,6 +1,6 @@
 .page {
   min-height: calc(100vh - 60px);
-  padding-top: 120px;
+  padding-top: 90px;
   padding-bottom: 20px;
 	width: 100%;
 
@@ -9,7 +9,7 @@
   }
 
 	&.listing-page {
-		min-height: calc(100vh - 110px);
+		min-height: calc(100vh - 60px);
 	}
 
 	.loader-small {
@@ -20,6 +20,7 @@
 	.page-wrapper {
 		background-color: $white;
     margin: 0 30px;
+    overflow: scroll;
 
 		@include mobile() {
 			margin: 10px;

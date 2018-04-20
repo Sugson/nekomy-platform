@@ -14,7 +14,6 @@ import AccountSettings from './themes/nekomy/pages/account/settings';
 import AccountNotifications from './themes/nekomy/pages/account/notifications';
 import Listing from './themes/nekomy/pages/listing/listing';
 import Page from './themes/nekomy/pages/page/page';
-import Post from './themes/nekomy/pages/post/post';
 import Course from './themes/nekomy/pages/course/course';
 import Subject from './themes/nekomy/pages/subject/subject';
 import Forum from './themes/nekomy/pages/forum/forum';
@@ -86,7 +85,6 @@ ReactDOM.render(
         <Route path="/courses/:slug/subjects" component={Course} onEnter={requireAuth} />
         <Route path="/courses/:slug/goals" component={Course} onEnter={requireAuth} />
         <Route path="/courses/:slug/requirements" component={Course} onEnter={requireAuth} />
-        <Route path="/subjects" component={Listing} onEnter={requireAuth} />
         <Route path="/subjects/:slug" component={Subject} onEnter={requireAuth} />
         <Route path="/subjects/:slug/forum" component={Forum} onEnter={requireAuth} />
         <Route path="/subjects/:slug/homework" component={Homework} onEnter={requireAuth} />

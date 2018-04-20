@@ -113,6 +113,15 @@ body {
 	vertical-align: middle;
 }
 
-a:hover {
+a:hover, a:focus {
   text-decoration: none;
+}
+
+table tr {
+  border: 1px solid #295cb1;
+}
+
+table th, table td {
+  padding: 10px;
+  border: none;
 }

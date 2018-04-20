@@ -4,15 +4,15 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firebaseConnect, getVal, isLoaded, isEmpty } from 'react-redux-firebase';
 import moment from 'moment';
+import ReactHtmlParser from 'react-html-parser';
 import { Link } from 'react-router';
 import { setLoading } from '../../../../core/actions/actions';
 import * as CONSTANTS from '../../../../core/constants/constants';
 import ModalBox from '../../../../core/common/modalbox/modalbox';
-import Edit from '../../../../core/common/lib/edit/edit';
 import { animateCss, hideElem, showElem } from '../../../../core/common/helpers';
 import Icon from '../../../../core/common/lib/icon/icon';
-import Level from '../../../../../../static/svg/course.svg';
 import Info from '../../../../../../static/svg/info.svg';
+import Teacher from '../../../../../../static/svg/professor.svg';
 import Calendar from '../../../../../../static/svg/calendar2.svg';
 import Page from '../../components/page/page';
 
@@ -76,7 +76,6 @@ class Course extends Component {
     let featuredImage = null;
     let enrollmentOpened = false;
     let subjects = null;
-    let totalCredits = 0;
     const section = this.props.location.pathname.substr(this.props.location.pathname.lastIndexOf('/') + 1);
 
     if (isLoaded(this.props.course) && isLoaded(this.props.files) && !isEmpty(this.props.course) && !isEmpty(this.props.files)) {
@@ -103,7 +102,7 @@ class Course extends Component {
       subjects = course.subjects.map((item, i) => {
         const subject = this.props.subjects[course.subjects[i]];
         let teachers = '';
-        totalCredits += parseInt(subject.credits, 0);
+        const isDisabled = subject.status !== 'active';
 
         if (subject.teachers) {
           teachers = subject.teachers.map((teacher) => {
@@ -115,31 +114,46 @@ class Course extends Component {
         }
 
         return (
-          <tr key={item}>
-            <td>{subject.code}</td>
-            <td>
-              <Link to={`/subjects/${subject.slug}`}>{subject.title}</Link>
-            </td>
-            <td>{teachers}</td>
-            <td>{subject.credits}</td>
-          </tr>
+          <div className="col-xs-12 col-md-4">
+            { !isDisabled ?
+              <Link to={`/subjects/${subject.slug}`}>
+                <div className={'box dashboard__course-card'} key={`course.code-${i}`}>
+                  <div>{subject.shortTitle}</div>
+                  <div className="teachers">
+                    <Icon glyph={Teacher} />
+                    { teachers }
+                  </div>
+                </div>
+              </Link>
+            :
+              <div className={'dashboard__course-card disabled'} key={`course.code-${i}`}>
+                <div>{subject.shortTitle}</div>
+                <div className="teachers">
+                  <Icon glyph={Teacher} />
+                  { teachers }
+                </div>
+              </div>
+            }
+          </div>
         );
       });
     }
 
     return course ? (
       <Page additionalClass={'course'} headline={course && course.title} image={featuredImage.url}>
-        <div className="meta">
-          <Icon glyph={Calendar} />Enrollment from
-          <span className="date">{moment(course.startDate).format('D MMMM YYYY')}</span>
-          until
-          <span className="date">{moment(course.endDate).format('D MMMM YYYY')}</span>
+        <div className={'course__enrollment'}>
+          <div className="meta">
+            <Icon glyph={Calendar} />Enrollment available from&nbsp;
+            <span className="date">{moment(course.startDate).format('D MMMM YYYY')}</span>
+            &nbsp;until&nbsp;
+            <span className="date">{moment(course.endDate).format('D MMMM YYYY')}</span>
+          </div>
+          {section !== 'subjects' && subjects && enrollmentOpened
+            ? <button className="btn btn-primary btn-enroll">
+              <Link to={`/courses/${course.slug}/subjects`}>Enrol now</Link>
+            </button>
+            : ''}
         </div>
-        {section !== 'subjects' && subjects && enrollmentOpened
-          ? <button className="btn btn-primary btn-enroll">
-            <Link to={`/courses/${course.slug}/subjects`}>Enrol now!</Link>
-          </button>
-          : ''}
         <ul className="horizontal-nav">
           <li
             className={classNames('horizontal-nav-item', {
@@ -165,90 +179,51 @@ class Course extends Component {
           </li>
         </ul>
         <div
-          className={classNames('columns', {
-            'single-column': (!course.content2 && !course.content2),
+          className={classNames('', {
             hidden: (section !== this.props.params.slug)
           })}
         >
-          <div className="column page-content">
-            <div
-              className="content" dangerouslySetInnerHTML={{
-                __html: CONSTANTS.converter.makeHtml(course.content1)
-              }}
-            />
+          <div>
+            {ReactHtmlParser(course.about)}
           </div>
-          {course.content2
-            ? <div className="column page-sidebar">
-              <div
-                className="content" dangerouslySetInnerHTML={{
-                  __html: CONSTANTS.converter.makeHtml(course.content2)
-                }}
-              />
-            </div>
-            : ''}
-          {course.content3
-            ? <div className="column page-sidebar">
-              <div
-                className="content" dangerouslySetInnerHTML={{
-                  __html: CONSTANTS.converter.makeHtml(course.content3)
-                }}
-              />
-            </div>
-            : ''}
         </div>
         <div
-          className={classNames('columns single-column', {
+          className={classNames('', {
             hidden: (section !== 'subjects')
           })}
         >
-          <div className="column page-content">
+          <div>
             {!isLoaded(this.props.userData) || isEmpty(this.props.userData)
               ? <p><Icon glyph={Info} className="icon info-icon" />Sign in to enrol in this course</p>
               : null}
-            <table>
-              <thead>
-                <tr>
-                  <th>Code</th>
-                  <th>Subject</th>
-                  <th>Teacher(s)</th>
-                  <th>Credits</th>
-                </tr>
-              </thead>
-              <tbody>
-                {subjects}
-              </tbody>
-            </table>
+            <div className={'row start'}>
+              {subjects}
+            </div>
             {enrollmentOpened && isLoaded(this.props.userData) && !isEmpty(this.props.userData)
-              ? <button ref="btn-enroll" className="btn btn-primary btn-enroll float-right" onClick={() => this.enrolConfirmation()}>Proceed with the registration</button>
+              ? <button ref="btn-enroll" className="btn btn-primary btn-enroll" onClick={() => this.enrolConfirmation()}>Proceed with the registration</button>
               : ''}
             <div ref="loader-enroll" className="loader-small loader-enroll" />
           </div>
         </div>
         <div
-          className={classNames('columns single-column', {
+          className={classNames('', {
             hidden: (section !== 'goals')
           })}
         >
-          <div className="column page-content">
-            <div
-              className="content" dangerouslySetInnerHTML={{
-                __html: CONSTANTS.converter.makeHtml(course.fees)
-              }}
-            />
+          <div>
+            {ReactHtmlParser(course.goals)}
           </div>
         </div>
         <div
-          className={classNames('columns single-column', {
+          className={classNames('', {
             hidden: (section !== 'requirements')
           })}
         >
-          <div className="column page-content">
-            <div
-              className="content" dangerouslySetInnerHTML={{
-                __html: CONSTANTS.converter.makeHtml(course.requirements)
-              }}
-            />
-          </div>
+          <div
+            className="content" dangerouslySetInnerHTML={{
+              __html: CONSTANTS.converter.makeHtml(course.requirements)
+            }}
+          />
         </div>
         <ModalBox title={this.state.modalTitle} answer={this.modalBoxAnswer} />
       </Page>
