@@ -216,7 +216,6 @@
 
 		@include mobile() {
 			display: block;
-			float: right;
 		    margin-top: 3px;
 		    margin-right: 20px;
 		}
@@ -273,12 +272,12 @@
 
 	.user-controls {
 		display: inline-block;
-		margin-left: 10px;
+    float: right;
+    margin-right: 10px;
 		color: $white;
 		font-size: 14px;
 
 		@include desktop() {
-			float: right;
 			margin-left: 0;
 			margin-top: 3px;
 			margin-right: 20px;
@@ -314,10 +313,6 @@
 				margin-left: 3px;
 				height: 15px;
 				@include scale-anim();
-
-				@include mobile() {
-					display: none;
-				}
 			}
 
 			&.chat, &.close-chat {
@@ -367,8 +362,11 @@
       min-width: 300px;
 
 			@include mobile() {
-				left: 20px;
-				right: initial;
+        left: 0;
+        right: 0;
+        width: 90%;
+        margin: 0 auto;
+        top: 100%;
 			}
 
       input {

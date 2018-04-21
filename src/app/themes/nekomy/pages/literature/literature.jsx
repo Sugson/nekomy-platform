@@ -34,7 +34,7 @@ class Literature extends Component {
           <li>J. David Irwin, Chwan-Hwa Wu, Introduction to Computer Networks and Cybersecurity, 2013</li>
         </ul>
         <h1 className="literature__title">Video Course</h1>
-        ​<iframe width="800" height="450" src="https://www.youtube.com/embed/videoseries?list=PL6gx4Cwl9DGBpuvPW0aHa7mKdn_k9SPKO" frameborder="0" allowfullscreen></iframe>
+        ​<iframe width="100%" height="450" src="https://www.youtube.com/embed/videoseries?list=PL6gx4Cwl9DGBpuvPW0aHa7mKdn_k9SPKO" frameborder="0" allowfullscreen></iframe>
       </Page>
     );
   }

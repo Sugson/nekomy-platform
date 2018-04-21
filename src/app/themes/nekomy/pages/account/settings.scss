@@ -8,7 +8,15 @@
 		border: 2px solid;
 		overflow: hidden;
 	    box-sizing: content-box;
-	}
+  }
+
+  .row {
+    margin-top: 2em;
+
+    @include mobile () {
+      margin-top: 0;
+    }
+  }
 
 	.update-photo {
 		text-align: center;
