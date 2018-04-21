@@ -77,7 +77,7 @@ class App extends Component {
         <div className="main js-main">
           <Loader />
           <Notification />
-          <TopNav location={this.props.location} />
+          <TopNav history={this.props.history} location={this.props.location} />
           <div className="main-background" />
           <div className={`dropdown-panel js-dropdown-panel ${panelClass}`}>
             {/* <Chat

@@ -42,7 +42,7 @@ const defaultProps = {
       children: [
         {
           id: 7,
-          title: 'Summary',
+          title: 'About',
           link: '/about'
         }, {
           id: 10,
@@ -125,24 +125,6 @@ class Navigation extends Component {
           <table className="mobile-nav-items">
             <tbody>
               <tr>
-                <td>
-                  <button
-                    className="mobile-nav-item" onClick={() => {
-                      this.props.toggleNav();
-                    }}
-                  >
-                    <Icon glyph={Calendar} className="icon calendar" />
-                  </button>
-                </td>
-                <td>
-                  <button
-                    className="mobile-nav-item" onClick={() => {
-                      this.props.toggleNav();
-                    }}
-                  >
-                    <Icon glyph={Trophy} className="icon trophy" />
-                  </button>
-                </td>
                 <td>
                   <button
                     className="mobile-nav-item" onClick={() => {

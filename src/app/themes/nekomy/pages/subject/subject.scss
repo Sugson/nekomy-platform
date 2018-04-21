@@ -28,7 +28,13 @@
 		.icon {
 			margin-right: 10px;
 		}
-	}
+  }
+
+  .row {
+    > div {
+      margin: 1em 0;
+    }
+  }
 }
 
 .subject__card {

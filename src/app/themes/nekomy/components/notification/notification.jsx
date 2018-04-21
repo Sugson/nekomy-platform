@@ -47,7 +47,7 @@ class Notification extends Component {
         <Icon className="icon success-icon" glyph={Tick} />
         <Icon className="icon error-icon" glyph={Close} />
         <Icon className="icon info-icon" glyph={Info} />
-        <span className="message">{this.props.notification.message}</span>
+        <span className="not-message">{this.props.notification.message}</span>
       </div>
     );
   }

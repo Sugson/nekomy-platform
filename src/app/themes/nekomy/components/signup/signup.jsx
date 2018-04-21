@@ -57,7 +57,7 @@ class Signup extends Component {
   render() {
     return (
       <form className={`user-form sign-up ${this.props.showClass}`} onSubmit={e => this.handleSignup(e)}>
-        <input type="text" className="input-field" placeholder="Fist name" ref="firstname" />
+        <input type="text" className="input-field" placeholder="First name" ref="firstname" />
         <input type="text" className="input-field" placeholder="Last name" ref="lastname" />
         <input type="email" className="input-field" placeholder="Email" ref="email" />
         <input type="password" className="input-field" placeholder="Password" ref="password" />

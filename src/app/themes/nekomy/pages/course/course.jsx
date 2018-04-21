@@ -63,6 +63,7 @@ class Course extends Component {
         showElem(this.refs['btn-enroll']);
         hideElem(this.refs['loader-enroll']);
         this.props.setNotification({ message: CONSTANTS.ENROLLED_COURSE, type: 'success' });
+        this.props.history.push('/dashboard');
       }, (error) => {
         showElem(this.refs['btn-enroll']);
         hideElem(this.refs['loader-enroll']);
@@ -91,7 +92,8 @@ class Course extends Component {
           });
         }
 
-        if (moment().isBetween(moment(course.startDate), moment(course.endDate), 'days', '[]')) {
+        if (moment().isBetween(moment(course.startDate), moment(course.endDate), 'days', '[]')
+          && !this.props.userData.courses) {
           enrollmentOpened = true;
         }
         return false;
@@ -115,7 +117,7 @@ class Course extends Component {
 
         return (
           <div className="col-xs-12 col-md-4">
-            { !isDisabled ?
+            { !isDisabled && !enrollmentOpened ?
               <Link to={`/subjects/${subject.slug}`}>
                 <div className={'box dashboard__course-card'} key={`course.code-${i}`}>
                   <div>{subject.shortTitle}</div>

@@ -5,10 +5,6 @@
 .home {
 	padding-top: 480px;
 
-  @include mobile() {
-    padding-top: 105vh;
-  }
-
 	.hero {
 		.world-map {
 			position: absolute;

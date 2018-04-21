@@ -63,6 +63,17 @@ class Dashboard extends Component {
       });
     }
 
+    if (_.isEmpty(coursesList)) {
+      return (
+        <div>
+          <p>You are not enrolled to any course</p>
+          <Link to="/courses">
+            <button className="btn btn-primary">Check available courses</button>
+          </Link>
+        </div>
+      );
+    }
+
     return coursesList.map(course => (
       <div className={'dashboard__course-card'} key={course.code}>
         <Link to={`/courses/${course.slug}`}>

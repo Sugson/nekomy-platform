@@ -18,6 +18,8 @@ import Course from './themes/nekomy/pages/course/course';
 import Subject from './themes/nekomy/pages/subject/subject';
 import Forum from './themes/nekomy/pages/forum/forum';
 import Homework from './themes/nekomy/pages/homework/homework';
+import Literature from './themes/nekomy/pages/literature/literature';
+import Lesson from './themes/nekomy/pages/lesson/lesson';
 import Quiz from './themes/nekomy/pages/quiz/quiz';
 import Module from './themes/nekomy/pages/module/module';
 import Activity from './themes/nekomy/pages/activity/activity';
@@ -89,7 +91,8 @@ ReactDOM.render(
         <Route path="/subjects/:slug/forum" component={Forum} onEnter={requireAuth} />
         <Route path="/subjects/:slug/homework" component={Homework} onEnter={requireAuth} />
         <Route path="/subjects/:slug/quiz" component={Quiz} onEnter={requireAuth} />
-        <Route path="/subjects/:slug/activities" component={Subject} onEnter={requireAuth} />
+        <Route path="/subjects/:slug/literature" component={Literature} onEnter={requireAuth} />
+        <Route path="/subjects/:slug/lesson" component={Lesson} onEnter={requireAuth} />
         <Route path="/modules" component={Listing} onEnter={requireAuth} />
         <Route path="/modules/:slug" component={Module} onEnter={requireAuth} />
         <Route path="/activities" component={Listing} onEnter={requireAuth} />

@@ -61,7 +61,7 @@ class Forum extends Component {
     if (currentSubject) {
       this.props.firebase.push(`subjects/${currentSubject}/forum`, { name: name.value, created: Date.now() })
         .then(() => {
-          this.props.setNotification({ message: 'hura', type: 'success' });
+          this.props.setNotification({ message: 'New thread added successfully', type: 'info' });
           name.value = '';
         }, (error) => {
           this.props.setNotification({ message: String(error), type: 'error' });

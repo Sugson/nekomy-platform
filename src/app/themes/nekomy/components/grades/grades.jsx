@@ -9,7 +9,7 @@ class Grades extends Component {
   render() {
     return (
       <section className={`calendar-panel ${this.props.class}`}>
-        <h4 className="panel-heading">Activities Hub</h4>
+        <h4 className="panel-heading">Notifications</h4>
         <p>Sorry, this feature will be available in the following weeks.</p>
       </section>
     );

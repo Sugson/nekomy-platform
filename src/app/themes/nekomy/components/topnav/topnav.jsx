@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import { compose } from 'redux';
 import { firebaseConnect } from 'react-redux-firebase';
 import { setUser, setPanel, setNotification } from '../../../../core/actions/actions';
@@ -14,6 +13,7 @@ import Update from '../../../../../../static/svg/update.svg';
 import Calendar from '../../../../../../static/svg/calendar.svg';
 import Search from '../../../../../../static/svg/search.svg';
 import Close from '../../../../../../static/svg/x.svg';
+import Dashboard from '../../../../../../static/svg/Dashboard.svg';
 import PowerOff from '../../../../../../static/svg/power-off.svg';
 
 class TopNav extends Component {
@@ -191,24 +191,22 @@ class TopNav extends Component {
           {(this.props.user)
             ? <button
               className="top-nav-item" onClick={() => {
-                this.changePanel('calendar');
-              }}
-            >
-              {this.props.panel === 'calendar'
-                ? <Icon glyph={Close} />
-                : <Icon glyph={Calendar} className="icon calendar" />}
-            </button>
-            : ''}
-
-          {(this.props.user)
-            ? <button
-              className="top-nav-item" onClick={() => {
                 this.changePanel('grades');
               }}
             >
               {this.props.panel === 'grades'
                 ? <Icon glyph={Close} />
                 : <Icon glyph={Update} className="icon trophy" />}
+            </button>
+            : ''}
+
+          {(this.props.user)
+            ? <button
+              className="top-nav-item" onClick={() => {
+                this.props.history.push('/dashboard');
+              }}
+            >
+              <Icon glyph={Dashboard} />
             </button>
             : ''}
 

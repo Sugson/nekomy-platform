@@ -15,7 +15,6 @@ class Home extends Component {
   render() {
     return (
       <section className="home page">
-        <div className="hero" />
       </section>
     );
   }

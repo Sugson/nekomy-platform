@@ -8,10 +8,6 @@
 	.top-nav-bar {
 		padding: 16px 0;
     height: $nav-height;
-
-		@include mobile() {
-			padding: 10px 0;
-		}
   }
 
   .top-nav__app-button {
