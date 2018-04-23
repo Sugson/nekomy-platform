@@ -51,10 +51,14 @@
     "react-helmet": "^4.0.0",
     "react-hot-loader": "^3.0.0-beta.6",
     "react-html-parser": "^2.0.2",
+    "react-iframe": "^1.1.0",
+    "react-player": "^1.4.0",
+    "react-presents": "^0.7.10",
     "react-radio-buttons": "^1.2.1",
     "react-redux": "^4.4.5",
     "react-redux-firebase": "^2.0.5",
     "react-router": "^2.4.0",
+    "react-router-dom": "^4.2.2",
     "react-router-redux": "^4.0.5",
     "react-select2-wrapper": "^1.0.4-beta2",
     "react-show": "^2.0.4",
@@ -67,7 +71,8 @@
     "redux-react-firebase": "^2.6.1",
     "redux-thunk": "^2.1.0",
     "showdown": "^1.5.0",
-    "slack": "^8.1.1"
+    "slack": "^8.1.1",
+    "spectacle": "^4.2.2"
   },
   "devDependencies": {
     "autoprefixer": "^6.5.3",

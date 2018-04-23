@@ -68,9 +68,9 @@ module.exports = (options) => {
       }),
       new Webpack.DefinePlugin({
         'process.env': {
-          NODE_ENV: JSON.stringify(options.isProduction
+          NODE_ENV: JSON.stringify(`${options.isProduction
             ? 'production'
-            : 'development'),
+            : 'development'}`),
           FIREBASE_API_KEY: JSON.stringify(process.env.FIREBASE_API_KEY),
           FIREBASE_AUTH_DOMAIN: JSON.stringify(process.env.FIREBASE_AUTH_DOMAIN),
           FIREBASE_DATABASE_URL: JSON.stringify(process.env.FIREBASE_DATABASE_URL),
@@ -97,6 +97,8 @@ module.exports = (options) => {
         to: 'static'
       }
     ]), ExtractSASS);
+
+    webpackConfig.plugins.push(new Webpack.optimize.UglifyJsPlugin());
 
     webpackConfig.module.rules.push({
       test: /\.scss$/,

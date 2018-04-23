@@ -68,7 +68,7 @@ class Homework extends Component {
     if (codeEditorValue && currentSubject) {
       this.props.firebase.push(`users/${this.props.user.uid}/subject/${currentSubject}/homework`, { code: codeEditorValue, timestamp: Date.now() })
         .then(() => {
-          this.props.setNotification({ message: 'hura', type: 'success' });
+          this.props.setNotification({ message: 'Homework added', type: 'success' });
           window.location.reload();
         }, (error) => {
           this.props.setNotification({ message: String(error), type: 'error' });

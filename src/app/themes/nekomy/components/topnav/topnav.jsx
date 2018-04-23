@@ -10,10 +10,9 @@ import Signin from '../signin/signin';
 import { animateCss, hideElem, showElem } from '../../../../core/common/helpers';
 import Icon from '../../../../core/common/lib/icon/icon';
 import Update from '../../../../../../static/svg/update.svg';
-import Calendar from '../../../../../../static/svg/calendar.svg';
 import Search from '../../../../../../static/svg/search.svg';
 import Close from '../../../../../../static/svg/x.svg';
-import Dashboard from '../../../../../../static/svg/Dashboard.svg';
+import Dashboard from '../../../../../../static/svg/dashboard.svg';
 import PowerOff from '../../../../../../static/svg/power-off.svg';
 
 class TopNav extends Component {

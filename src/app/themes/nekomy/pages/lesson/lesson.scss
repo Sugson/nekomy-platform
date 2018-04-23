@@ -1,0 +1,18 @@
+.lesson {
+  .page-wrapper {
+    > div {
+      position: relative;
+
+      &:nth-child(2) {
+        height: 50vw !important;
+      }
+    }
+  }
+}
+
+.lesson__presentation {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+}

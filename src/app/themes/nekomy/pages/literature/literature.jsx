@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import Iframe from 'react-iframe';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import Page from '../../components/page/page';
 import { setLoading } from '../../../../core/actions/actions';
@@ -34,7 +35,14 @@ class Literature extends Component {
           <li>J. David Irwin, Chwan-Hwa Wu, Introduction to Computer Networks and Cybersecurity, 2013</li>
         </ul>
         <h1 className="literature__title">Video Course</h1>
-        ​<iframe width="100%" height="450" src="https://www.youtube.com/embed/videoseries?list=PL6gx4Cwl9DGBpuvPW0aHa7mKdn_k9SPKO" frameborder="0" allowfullscreen></iframe>
+        <Iframe
+          url="https://www.youtube.com/embed/videoseries?list=PL6gx4Cwl9DGBpuvPW0aHa7mKdn_k9SPKO"
+          width="100%"
+          height="50vw"
+          display="initial"
+          position="relative"
+          allowFullScreen
+        />
       </Page>
     );
   }
