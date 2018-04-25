@@ -1,13 +1,68 @@
 .lesson {
-  .page-wrapper {
-    > div {
-      position: relative;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99998;
+  background: $white;
 
-      &:nth-child(2) {
-        height: 50vw !important;
-      }
+  .slide__presentation-title {
+    @extend %u-text--small;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    text-align: left;
+  }
+
+  .slide__title {
+    @extend %u-text--big;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    text-align: left;
+    padding: 10px 0 20px;
+  }
+
+  p, li {
+    @extend %u-text--default;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    text-align: left;
+    padding: 10px 0;
+  }
+
+  .jumper {
+    @extend %u-text--default;
+    margin: 0;
+    padding: 30px 40px;
+  }
+
+  .jumper--insider {
+    padding: 10px 40px;
+  }
+
+  .slide__nav {
+    margin: 40px 0;
+
+    button {
+      padding: 0;
     }
   }
+
+  .button-group {
+    position: fixed;
+    bottom: 20px;
+    left: 10px;
+    z-index: 100000;
+
+    .icon {
+      width: 40px;
+      height: 40px;
+    }
+
+    > * {
+      position: relative;
+      display: block;
+    }
+  }
+}
+
+.lesson--night {
+  background: #151515;
 }
 
 .lesson__presentation {
@@ -15,4 +70,20 @@
   width: 100vw;
   height: 100vh;
   z-index: 99999;
+
+  .spectacle-deck button {
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .spectacle-content {
+    overflow-y: scroll;
+  }
+
+  .spectacle-slide {
+    transition: background-color .4s linear;
+  }
 }
