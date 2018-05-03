@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute } from 'react-router';
 import ReactGA from 'react-ga';
+import { hotjar } from 'react-hotjar';
 import firebase from 'firebase';
 import { ADMIN_LEVEL } from './core/constants/constants';
 import store, { history } from './store';
@@ -32,6 +33,8 @@ ReactGA.initialize('UA-00000000-1', {
   titleCase: false,
   gaOptions: {}
 });
+
+hotjar.initialize(868376, 6);
 
 function logPageView() {
   if (process.env.NODE_ENV === 'production') {
