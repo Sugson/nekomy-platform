@@ -1,0 +1,75 @@
+[debug] [2018-05-12T12:36:01.105Z] ----------------------------------------------------------------------
+[debug] [2018-05-12T12:36:01.107Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy
+[debug] [2018-05-12T12:36:01.107Z] CLI Version:   3.18.4
+[debug] [2018-05-12T12:36:01.107Z] Platform:      darwin
+[debug] [2018-05-12T12:36:01.107Z] Node Version:  v8.10.0
+[debug] [2018-05-12T12:36:01.108Z] Time:          Sat May 12 2018 14:36:01 GMT+0200 (CEST)
+[debug] [2018-05-12T12:36:01.108Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-05-12T12:36:01.119Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-05-12T12:36:01.119Z] > authorizing via signed-in user
+[debug] [2018-05-12T12:36:01.121Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-05-12T12:36:01.121Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/9SKH4ZQG1FK5SXWIEfaB0Xw-FZHpK-SYWqpv40ekWVo',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Sat May 12 2018 14:36:01 GMT+0200 (CEST)
+[debug] [2018-05-12T12:36:01.329Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-12T12:36:01.341Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/nekomylms  
+  
+ Sat May 12 2018 14:36:01 GMT+0200 (CEST)
+[debug] [2018-05-12T12:36:02.258Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-12T12:36:02.259Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/nekomylms/tokens  
+  
+ Sat May 12 2018 14:36:02 GMT+0200 (CEST)
+[debug] [2018-05-12T12:36:03.078Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'nekomylms'...
+[info] 
+[info] i  deploying database, hosting
+[info] i  database: checking rules syntax...
+[debug] [2018-05-12T12:36:03.805Z] >>> HTTP REQUEST PUT https://nekomylms.firebaseio.com/.settings/rules.json?dryRun=true  
+ {
+  "rules": {
+    ".read": "true",
+    ".write": "auth != null",
+    "users": {
+      "$id": {
+      	"info": {
+          "level": {
+            ".read": "true",
+    		".write": "false"
+          }
+        }
+      }
+    },
+    "pages": {
+      ".indexOn": ["slug"]
+    },
+    "posts": {
+      ".indexOn": ["slug"]
+    },
+    "courses": {
+      ".indexOn": ["slug"]
+    },
+    "subjects": {
+      ".indexOn": ["slug"]
+    },
+    "modules": {
+      ".indexOn": ["slug"]
+    },
+    "activities": {
+      ".indexOn": ["slug"]
+    }
+  }
+}
+ 
+ Sat May 12 2018 14:36:03 GMT+0200 (CEST)
+[debug] [2018-05-12T12:36:04.512Z] <<< HTTP RESPONSE 200
+[info] ✔  database: rules syntax for database nekomylms is valid
+[info] i  hosting: preparing dist directory for upload...
+[debug] [2018-05-12T12:36:04.750Z] >>> HTTP REQUEST PUT https://deploy.firebase.com/v1/hosting/nekomylms/uploads/-LCJLSYRvdDB9PeCjn_j?fileCount=120&message=  
+  
+ Sat May 12 2018 14:36:04 GMT+0200 (CEST)

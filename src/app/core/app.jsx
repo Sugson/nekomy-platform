@@ -56,8 +56,8 @@ class App extends Component {
 
   render() {
     const title = (!this.props.breadcrumbs[0])
-      ? 'Nekomy'
-      : `${this.props.breadcrumbs.reverse().join(' < ')} < Nekomy`;
+      ? 'iLearn | suit e-learning platform'
+      : `${this.props.breadcrumbs.reverse().join(' < ')} < iLearn`;
 
     const panelClass = (this.props.panel === '')
       ? ''

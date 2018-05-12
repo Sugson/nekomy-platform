@@ -20,7 +20,8 @@
 	.page-wrapper {
 		background-color: $white;
     margin: 0 30px;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: auto;
 
 		@include mobile() {
 			margin: 10px;
